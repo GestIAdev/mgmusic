@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react';
+﻿import { useState, useMemo, useRef } from 'react';
 import { MapPin, Clock, ChevronLeft, ChevronRight, CalendarDays, Ticket } from 'lucide-react';
 
 /* 
@@ -142,6 +142,7 @@ export default function Events() {
   const [activeTab, setActiveTab]   = useState<'upcoming' | 'past'>('upcoming');
   const [calYear, setCalYear]       = useState(today.getFullYear());
   const [calMonth, setCalMonth]     = useState(today.getMonth());
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   const eventDates = useMemo(
     () => MISSION_DATA.map((e) => parseLocalDate(e.date)),
@@ -173,6 +174,36 @@ export default function Events() {
     if (ev) { setActiveEvent(ev); setActiveTab(ev.status); }
   };
 
+  /* ── Carrusel: navega dentro del tab activo ── */
+  const scrollCardIntoView = (ev: MissionEvent) => {
+    setTimeout(() => {
+      const el = cardsRef.current?.querySelector(`[data-id="${ev.id}"]`) as HTMLElement | null;
+      el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, 50);
+  };
+
+  const handlePrevEvent = () => {
+    const list = MISSION_DATA.filter((e) => e.status === activeTab);
+    if (list.length < 2) return;
+    const idx = list.findIndex((e) => e.id === activeEvent.id);
+    const prev = list[(idx - 1 + list.length) % list.length];
+    setActiveEvent(prev);
+    scrollCardIntoView(prev);
+  };
+
+  const handleNextEvent = () => {
+    const list = MISSION_DATA.filter((e) => e.status === activeTab);
+    if (list.length < 2) return;
+    const idx = list.findIndex((e) => e.id === activeEvent.id);
+    const next = list[(idx + 1) % list.length];
+    setActiveEvent(next);
+    scrollCardIntoView(next);
+  };
+
+  /* Cuántos eventos hay en el tab activo */
+  const tabList = MISSION_DATA.filter((e) => e.status === activeTab);
+  const tabIdx  = tabList.findIndex((e) => e.id === activeEvent.id);
+
   return (
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
 
@@ -199,10 +230,38 @@ export default function Events() {
                 className="w-full h-full object-contain"
               />
             )}
+
+            {/* Flecha PREV */}
+            {tabList.length > 1 && (
+              <button
+                onClick={handlePrevEvent}
+                className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                aria-label="Evento anterior"
+              >
+                <ChevronLeft size={28} />
+              </button>
+            )}
+
+            {/* Flecha NEXT */}
+            {tabList.length > 1 && (
+              <button
+                onClick={handleNextEvent}
+                className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                aria-label="Evento siguiente"
+              >
+                <ChevronRight size={28} />
+              </button>
+            )}
+
             <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2">
               <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
                 {activeEvent.status === 'upcoming' ? 'PRÓXIMO' : 'ARCHIVO'}
               </span>
+              {tabList.length > 1 && (
+                <span className="font-display text-[10px] tracking-widest text-neon-cyan/70 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm">
+                  {tabIdx + 1} / {tabList.length}
+                </span>
+              )}
               <span className="hidden sm:block font-sans text-xs text-white/70 bg-space-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-48">
                 {activeEvent.title}
               </span>
@@ -317,7 +376,7 @@ export default function Events() {
 
             <div className="flex shrink-0 border-b border-white/10 mb-3">
               {(['upcoming', 'past'] as const).map((tab) => {
-                const label = tab === 'upcoming' ? 'PRÓXIMAS MISIONES' : 'ARCHIVOS PASADOS';
+                const label = tab === 'upcoming' ? 'PRÓXIMOS EVENTOS' : 'EVENTOS PASADOS';
                 const isAct = activeTab === tab;
                 return (
                   <button
@@ -336,7 +395,7 @@ export default function Events() {
               })}
             </div>
 
-            <div className="flex-1 overflow-y-auto scrollbar-hide">
+            <div ref={cardsRef} className="flex-1 overflow-y-auto scrollbar-hide">
               {filteredCards.length === 0 ? (
                 <p className="text-center text-gray-600 font-display text-xs tracking-widest pt-8 uppercase">
                   Sin eventos en esta categoría
@@ -348,6 +407,7 @@ export default function Events() {
                     return (
                       <button
                         key={ev.id}
+                        data-id={ev.id}
                         onClick={() => setActiveEvent(ev)}
                         className={`relative aspect-4/3 overflow-hidden rounded-sm text-left transition-all duration-300 group ${
                           isSelected
