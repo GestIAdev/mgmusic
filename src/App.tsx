@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import TopNav from './components/layout/TopNav';
 import Footer from './components/layout/Footer';
 import Hero from './components/sections/Hero';
@@ -12,28 +12,28 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
 
   return (
-    <div className="h-screen w-screen bg-space-black text-white flex flex-col overflow-hidden relative font-sans">
-      
-      {/* Canvas animado Halftone Waves — fijado detrás de todo el layout */}
+    <div className="h-screen w-screen text-white flex flex-col overflow-hidden relative font-sans">
+
+      {/* Canvas Halftone - fixed, detras de todo */}
       <HalftoneWaves />
 
-      {/* Overlay radial: oscurece el centro para que el contenido respire */}
+      {/* Overlay radial: base oscura en bordes, semitransparente en centro */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          zIndex: 1,
-          background: 'radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, #050508 75%)',
+          zIndex: 0,
+          background: 'radial-gradient(ellipse 85% 70% at 50% 50%, rgba(5,5,8,0.55) 0%, #050508 90%)',
         }}
       />
 
-      {/* ── Header ─────────────────────────────────── */}
+      {/* Header */}
       <div className="relative z-10 shrink-0">
         <TopNav activeSection={activeSection} setActiveSection={setActiveSection} />
       </div>
 
-      {/* ── Main: scrollable con scrollbar oculto ─── */}
+      {/* Main scrollable */}
       <main className="flex-1 relative z-10 w-full overflow-y-auto scrollbar-hide">
-        
+
         {activeSection === 'hero' && (
           <Hero setActiveSection={setActiveSection} />
         )}
@@ -47,7 +47,7 @@ export default function App() {
         {activeSection === 'luxsync' && <LuxSync />}
       </main>
 
-      {/* ── Footer ─────────────────────────────────── */}
+      {/* Footer */}
       <div className="relative z-10 shrink-0">
         <Footer />
       </div>
