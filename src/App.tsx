@@ -3,6 +3,7 @@ import TopNav from './components/layout/TopNav';
 import Footer from './components/layout/Footer';
 import Hero from './components/sections/Hero';
 import Gallery from './components/sections/Gallery';
+import Events from './components/sections/Events';
 import HalftoneWaves from './components/ui/HalftoneWaves';
 
 export default function App() {
@@ -37,7 +38,9 @@ export default function App() {
 
         {activeSection === 'media' && <Gallery />}
 
-        {/* Aquí irán: team, luxsync, events */}
+        {activeSection === 'events' && <Events />}
+
+        {/* Aquí irán: team, luxsync */}
       </main>
 
       {/* ── Footer ─────────────────────────────────── */}
