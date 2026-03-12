@@ -316,10 +316,10 @@ export default function LuxSync() {
             </div>
           </div>
 
-          {/* B) VISOR DE TEXTO — 60%, scrollable elegante */}
+          {/* B) VISOR DE TEXTO — 60%, scrollable sin scrollbar */}
           <div
             ref={textVisorRef}
-            className="w-full md:w-[60%] p-6 md:p-8 flex flex-col border-t md:border-t-0 md:border-l border-mg-orange/30 bg-white/5 backdrop-blur-md overflow-y-auto scrollbar-thin scrollbar-thumb-mg-orange/50 scrollbar-track-transparent"
+            className="w-full md:w-[60%] p-6 md:p-8 flex flex-col border-t md:border-t-0 md:border-l border-mg-orange/30 bg-white/5 backdrop-blur-md overflow-y-auto scrollbar-hide"
           >
             <span className="font-display text-xs md:text-sm tracking-[0.3em] text-mg-orange uppercase mb-4 shrink-0">
               {activeModule.role}
