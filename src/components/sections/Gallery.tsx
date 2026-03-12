@@ -55,9 +55,9 @@ export default function Gallery() {
   return (
     <>
       {/* ═══════════════════════════════════════════════
-          CONTENEDOR PRINCIPAL – panel dividido vertical
+          CONTENEDOR CENTRADO – consola elegante
           ═══════════════════════════════════════════════ */}
-      <div className="flex flex-col h-full w-full">
+      <div className="max-w-6xl mx-auto w-full h-full flex flex-col">
 
         {/* ─── BLOQUE SUPERIOR: PROYECTOR ─── */}
         <div className="h-[35vh] md:h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/20">
