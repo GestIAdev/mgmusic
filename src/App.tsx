@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer';
 import Hero from './components/sections/Hero';
 import Gallery from './components/sections/Gallery';
 import Events from './components/sections/Events';
+import Crew from './components/sections/Crew';
 import HalftoneWaves from './components/ui/HalftoneWaves';
 
 export default function App() {
@@ -40,7 +41,9 @@ export default function App() {
 
         {activeSection === 'events' && <Events />}
 
-        {/* Aquí irán: team, luxsync */}
+        {activeSection === 'team' && <Crew />}
+
+        {/* Aqui ira: luxsync */}
       </main>
 
       {/* ── Footer ─────────────────────────────────── */}
