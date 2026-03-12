@@ -53,14 +53,14 @@ export default function Gallery() {
   };
 
   return (
-    <>
-      {/* ═══════════════════════════════════════════════
-          CONTENEDOR CENTRADO – consola elegante
-          ═══════════════════════════════════════════════ */}
-      <div className="max-w-6xl mx-auto w-full h-full flex flex-col">
+    <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
+      {/* ╔════════════════════════════════════════════════════════════════╗
+          ║  VENTANA MAESTRA — Galería Multimedia (Software Style)        ║
+          ╚════════════════════════════════════════════════════════════════╝ */}
+      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/90 backdrop-blur-md flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
 
-        {/* ─── BLOQUE SUPERIOR: PROYECTOR ─── */}
-        <div className="h-[35vh] md:h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/20">
+        {/* ─── FILA SUPERIOR: PROYECTOR HD ─── */}
+        <div className="h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/30">
 
           {/* Contenido activo */}
           {activeItem.type === 'video' ? (
@@ -99,8 +99,8 @@ export default function Gallery() {
           </button>
         </div>
 
-        {/* ─── BLOQUE INFERIOR: controles + grid con fondo sólido ─── */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-space-black/90 backdrop-blur-md border-t border-neon-cyan/20">
+        {/* ─── FILA INFERIOR: Controles + Grid ─── */}
+        <div className="flex-1 flex flex-col min-h-[40vh] p-4 bg-transparent border-t-0">
 
           {/* ── PESTAÑAS PRINCIPALES: FOTOGRAFÍAS / VÍDEOS ── */}
           <div className="flex shrink-0 border-b border-white/10">
@@ -148,13 +148,13 @@ export default function Gallery() {
           </div>
 
           {/* ── GRID DE MINIATURAS (scrolleable) ── */}
-          <div className="flex-1 overflow-y-auto scrollbar-hide p-3 md:p-4">
+          <div className="flex-1 overflow-y-auto scrollbar-hide">
             {filtered.length === 0 ? (
               <p className="text-center text-gray-600 font-display text-xs tracking-widest pt-8 uppercase">
                 Sin contenido en esta categoría
               </p>
             ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1 md:gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1 md:gap-2 p-3 md:p-4">
                 {filtered.map((item) => {
                   const isActive = activeItem.id === item.id;
                   return (
@@ -236,6 +236,6 @@ export default function Gallery() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
