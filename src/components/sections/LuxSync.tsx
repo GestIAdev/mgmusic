@@ -1,5 +1,15 @@
 import { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Images } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Images, Maximize } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+
+// Raw imports de los archivos markdown
+import sensoryMd from '../../../docs/SENSORY-LAYER-SALES.md?raw';
+import seleneMd from '../../../docs/SELENE-COGNITION-SALES.md?raw';
+import chronosMd from '../../../docs/CHRONOS-TIMECODER-SALES.md?raw';
+import kineticMd from '../../../docs/KINETIC-CHROMATIC-SALES.md?raw';
+import hephaestusMd from '../../../docs/HEPHAESTUS-ENGINE-SALES.md?raw';
+import hyperionMd from '../../../docs/HYPERION-PROGRAMMER-SALES.md?raw';
+import preshowMd from '../../../docs/PRE-SHOW-WORKSPACE-SALES.md?raw';
 
 /* ═══════════════════════════════════════════════════════════════
    INTERFACES  (CMS-ready, flat, typed)
@@ -14,8 +24,8 @@ export interface LuxModule {
   id: string;
   role: string;
   title: string;
-  shortDescription: string;   // Para la tarjeta del grid inferior
-  longDescription: string;    // Para el visor de texto superior (scrollable)
+  shortDescription: string;
+  fullReport: string;  // Contenido markdown desde archivos .md
   coverImage: string;
   gallery: LuxMediaAsset[];
 }
@@ -25,190 +35,75 @@ export interface LuxModule {
 ═══════════════════════════════════════════════════════════════ */
 const LUXSYNC_DATA: LuxModule[] = [
   {
-    id: 'lx-001',
-    role: 'CAPA SENSORIAL',
-    title: 'EL OÍDO QUE TU SHOW NECESITABA',
+    id: 'lx-001', role: 'CAPA SENSORIAL', title: 'EL OÍDO QUE TU SHOW NECESITABA',
     shortDescription: 'Las luces que escuchan de verdad. Entiende notas, secciones, drops y progresiones armónicas con 4s de antelación.',
-    longDescription: `CAPA SENSORIAL — Análisis Musical de Próxima Generación
-
-LuxSync no "escucha" el audio como un visualizador de frecuencias primitivo. Procesa la música como lo haría un músico experimentado: entiende estructura, tensión, resolución y emoción.
-
-▸ ANÁLISIS DE ANTICIPACIÓN (4 segundos)
-El motor de predicción analiza las progresiones armónicas en curso y anticipa los cambios estructurales con hasta 4 segundos de margen. Resultado: las luces no reaccionan al drop, lo PRECEDEN.
-
-▸ DETECCIÓN DE SECCIONES
-Identifica automáticamente intro, verse, chorus, breakdown, build-up y outro. Cada sección activa un preset de atmósfera diferente sin intervención humana.
-
-▸ ANÁLISIS ARMÓNICO
-Detecta la tonalidad, la progresión de acordes y los cambios de modo (mayor/menor). Un cambio a modo menor genera una respuesta cromática fría y tensa; la resolución activa calidez y expansión.
-
-▸ EXTRACCIÓN DE TRANSIENTES
-Aislamiento preciso de kick, snare, hihat y percusiones auxiliares. Cada elemento tiene su propia cadena de respuesta lumínica independiente.
-
-▸ ANÁLISIS ESPECTRAL MULTI-BANDA
-División del espectro en 32 bandas procesadas individualmente. Los sub-bajos mueven strobes y blinders; los medios impulsan moving heads; los agudos controlan goborotation y prism.
-
-▸ BPM TRACKING ADAPTATIVO
-Seguimiento de tempo en tiempo real con compensación automática para tempo rubato, ritardando y acelerando. Funciona con DJ sets, bandas en vivo y música no cuantizada.`,
-    coverImage: '/src/assets/evento-main.jpeg',
-    gallery: [{ id: 'lx1-1', type: 'image', url: '/src/assets/evento-main.jpeg' }],
+    fullReport: sensoryMd,
+    coverImage: '/src/assets/app-sensory-thumb.jpg', 
+    gallery: [
+      { id: 'm1', type: 'video' as const, url: '/src/assets/demo-sensory.mp4' },
+      { id: 'm2', type: 'image' as const, url: '/src/assets/luxsync/neuralcommand1.png' }
+    ]
   },
   {
-    id: 'lx-002',
-    role: 'MOTOR COGNITIVO',
-    title: 'LA IA QUE PINTA CON LUZ',
+    id: 'lx-002', role: 'MOTOR COGNITIVO', title: 'LA IA QUE PINTA CON LUZ',
     shortDescription: 'Un cerebro de 15 especialistas tomando decisiones cada 16ms. Selene entiende la música y decide si disparar o guardar silencio.',
-    longDescription: `SELENE COGNITION ENGINE — El Cerebro Detrás del Show
-
-Selene no es un algoritmo. Es un sistema de inteligencia colectiva compuesto por 15 agentes especializados que deliberan y votan cada decisión lumínica en tiempo real.
-
-▸ ARQUITECTURA MULTI-AGENTE
-15 módulos cognitivos especializados: ColorMind, RhythmAgent, HarmonyReader, IntensityOracle, MovementDirector, AtmosphereWeaver, ContrastKeeper, TransientHunter, NarrativeBuilder, EnergyMapper, SilenceGuardian, BeatPredictor, MoodAnalyzer, SpaceArchitect y TemporalSculptor.
-
-▸ CICLO DE DECISIÓN A 16ms
-Cada 16 milisegundos (60fps de decisión), los 15 agentes analizan el estado actual del audio, el estado lumínico previo, y el contexto narrativo del show para emitir su voto. El sistema de consenso produce una instrucción única y coherente.
-
-▸ GUARDIAN DEL SILENCIO
-El agente SilenceGuardian es el más importante: veta las decisiones que saturarían la experiencia visual. LuxSync sabe cuándo NO hacer nada, y ese silencio lumínico es tan poderoso como el movimiento.
-
-▸ MEMORIA CONTEXTUAL
-Selene recuerda los últimos 8 minutos del show. No repetirá una secuencia que acaba de ejecutar. Cada momento es único e irrepetible.
-
-▸ APRENDIZAJE POR VENUE
-Tras cada show, el sistema exporta un perfil de venue con las respuestas óptimas para ese espacio acústico y visual. La segunda vez en el mismo club, Selene ya sabe exactamente cómo funciona la sala.`,
-    coverImage: '/src/assets/Evento18.jpeg',
-    gallery: [{ id: 'lx2-1', type: 'image', url: '/src/assets/Evento18.jpeg' }],
+    fullReport: seleneMd,
+    coverImage: '/src/assets/app-selene-thumb.jpg', 
+    gallery: [
+      { id: 'm3', type: 'video' as const, url: '/src/assets/demo-selene-effects.mp4' },
+      { id: 'm4', type: 'image' as const, url: '/src/assets/app-selene-ui.jpg' }
+    ]
   },
   {
-    id: 'lx-003',
-    role: 'MOTOR DE SINCRONIZACIÓN',
-    title: 'CHRONOS TIMECODER',
+    id: 'lx-003', role: 'MOTOR DE SINCRONIZACIÓN', title: 'CHRONOS TIMECODER',
     shortDescription: 'El timeline que sugiere, no dicta. Sincronización fotograma a fotograma sin necesidad de consolas de 70.000€.',
-    longDescription: `CHRONOS TIMECODER — Sincronización Absoluta Sin Cadenas
-
-Las consolas de iluminación profesionales de alta gama cuestan entre 40.000€ y 120.000€ y requieren operadores certificados. Chronos hace lo mismo por una fracción del coste, con mayor flexibilidad.
-
-▸ TIMECODE LIBRE
-Chronos genera su propio timecode interno sincronizado al BPM detectado. No necesita LTC externo, MIDI clock ni señal de sincronización de consola. Funciona autónomo o en red.
-
-▸ TIMELINE NO-LINEAL
-A diferencia de los sistemas basados en cues secuenciales, Chronos opera en un espacio temporal multidimensional. Puede ejecutar 8 timelines paralelos con prioridades dinámicas.
-
-▸ COMPENSACIÓN DE LATENCIA
-Calcula automáticamente la latencia de cada fixture conectado y la compensa en el envío DMX. Los moving heads lentos reciben la instrucción antes que los LEDs rápidos, para que todo aterrice al mismo tiempo.
-
-▸ SYNC FOTOGRAMA A FOTOGRAMA
-A 60fps de resolución temporal. El ojo humano no puede percibir diferencias por debajo de 20ms; Chronos opera a 16ms. La sincronización es físicamente perfecta.
-
-▸ MODO SUGERENCIA
-Chronos no bloquea al operador. En cualquier momento, el humano puede tomar control de cualquier fixture sin interrumpir los demás timelines. La IA retoma suavemente cuando se le devuelve el control.`,
-    coverImage: '/src/assets/evento-main.jpeg',
-    gallery: [{ id: 'lx3-1', type: 'image', url: '/src/assets/evento-main.jpeg' }],
+    fullReport: chronosMd,
+    coverImage: '/src/assets/app-chronos-thumb.jpg', 
+    gallery: [
+      { id: 'm5', type: 'video' as const, url: '/src/assets/demo-chronos-timeline.mp4' },
+      { id: 'm6', type: 'image' as const, url: '/src/assets/app-chronos-timeline.jpg' }
+    ]
   },
   {
-    id: 'lx-004',
-    role: 'FÍSICA & COLORIMETRÍA',
-    title: 'KINETIC-CHROMATIC CORE',
+    id: 'lx-004', role: 'FÍSICA & COLORIMETRÍA', title: 'KINETIC-CHROMATIC CORE',
     shortDescription: 'El software que convierte un mover chino de 50€ en hardware profesional con Motor Bodyguard integrado.',
-    longDescription: `KINETIC-CHROMATIC CORE — Física Real, Colores Reales
-
-El problema de la iluminación de baja gama no es el hardware: es el software. Kinetic-Chromatic Core extrae el máximo rendimiento de cualquier fixture, independientemente de su precio.
-
-▸ MOTOR BODYGUARD
-Sistema de protección mecánica activa. Monitoriza en tiempo real las posiciones pan/tilt de cada moving head y bloquea automáticamente los movimientos que excederían los límites físicos seguros. Cero golpes de motor. Cero fixtures rotos.
-
-▸ COLORIMETRÍA PERCEPTUAL
-Conversión automática de valores HSL/RGB al espacio perceptual CIE LAB. Los colores se perciben uniformes independientemente del tipo de LED (RGB, RGBW, RGBAWUV). Lo que ves en pantalla es lo que brilla en el escenario.
-
-▸ CURVAS DE DIMMER PERSONALIZADAS
-Cada fixture tiene una curva de respuesta de dimmer diferente. Kinetic-Chromatic Core calibra y corrige automáticamente para que "50% de intensidad" signifique lo mismo en todos los fixtures.
-
-▸ MEZCLA DE TEMPERATURA DE COLOR
-Control preciso de temperatura de color en Kelvin (1800K - 9000K) para fixtures con LEDs blancos variables. Integración automática con el análisis de mood de Selene.
-
-▸ PERFIL UNIVERSAL DE FIXTURE
-Base de datos de más de 8.000 perfiles de fixtures. Si el tuyo no está, el editor gráfico de perfiles permite crearlo en menos de 5 minutos.`,
-    coverImage: '/src/assets/Evento18.jpeg',
-    gallery: [{ id: 'lx4-1', type: 'image', url: '/src/assets/Evento18.jpeg' }],
+    fullReport: kineticMd,
+    coverImage: '/src/assets/app-kinetic-thumb.jpg', 
+    gallery: [
+      { id: 'm7', type: 'video' as const, url: '/src/assets/demo-kinetic-colors.mp4' },
+      { id: 'm8', type: 'image' as const, url: '/src/assets/app-kinetic-control.jpg' }
+    ]
   },
   {
-    id: 'lx-005',
-    role: 'EDITOR PARAMÉTRICO',
-    title: 'HEPHAESTUS ENGINE',
+    id: 'lx-005', role: 'EDITOR PARAMÉTRICO', title: 'HEPHAESTUS ENGINE',
     shortDescription: 'Newton y Bézier en la misma forja. Editor de curvas matemáticas conectadas directamente al DMX y reactivas al audio.',
-    longDescription: `HEPHAESTUS ENGINE — La Forja de los Efectos Perfectos
-
-Nombrado en honor al dios herrero del Olimpo, Hephaestus Engine es donde la física matemática se funde con la creatividad artística.
-
-▸ CURVAS DE BÉZIER CÚBICAS
-Editor visual de curvas de movimiento con puntos de control matemáticamente precisos. Los efectos de pan/tilt/dimmer siguen trayectorias físicamente plausibles: aceleración, deceleración, rebote, elástico.
-
-▸ FÍSICA DE NEWTON INTEGRADA
-Simulación de gravedad, fricción, elasticidad y masa para efectos de movimiento. Un "efecto caída" que ignora la física se ve falso; el mismo efecto con simulación newtoniana se ve inevitable y poderoso.
-
-▸ MATEMÁTICAS REACTIVAS
-Las curvas no son estáticas: sus parámetros se pueden mapear a cualquier variable de audio en tiempo real. La amplitud del kick controla la tensión de la curva; el nivel de bajos ajusta la velocidad angular.
-
-▸ SISTEMA DE EXPRESIONES
-Lenguaje de expresiones matemáticas (sin código) para crear comportamientos complejos: 'sin(beat * 2pi) * intensity * audioLevel'. Potencia de programación sin necesidad de ser programador.
-
-▸ BIBLIOTECA DE EFECTOS EXPORTABLE
-Los efectos creados se exportan como presets independientes del fixture. Un efecto diseñado para un moving head Martin funciona automáticamente en un Robe, un Claypaky o un genérico chino.`,
-    coverImage: '/src/assets/evento-main.jpeg',
-    gallery: [{ id: 'lx5-1', type: 'image', url: '/src/assets/evento-main.jpeg' }],
+    fullReport: hephaestusMd,
+    coverImage: '/src/assets/app-hephaestus-thumb.jpg', 
+    gallery: [
+      { id: 'm9', type: 'video' as const, url: '/src/assets/demo-hephaestus-editor.mp4' },
+      { id: 'm10', type: 'image' as const, url: '/src/assets/app-hephaestus-curves.jpg' }
+    ]
   },
   {
-    id: 'lx-006',
-    role: 'CONTROL EN DIRECTO',
-    title: 'HYPERION & THEPROGRAMMER',
+    id: 'lx-006', role: 'CONTROL EN DIRECTO', title: 'HYPERION & THEPROGRAMMER',
     shortDescription: 'LiveStage 3D inmersivo a 60fps. Tú tomas el mando absoluto cuando quieres, y Selene retoma suavemente cuando sueltas.',
-    longDescription: `HYPERION & THEPROGRAMMER — El Comandante y el Arquitecto
-
-Dos interfaces para dos momentos del show: TheProgranner para la preparación en frío; Hyperion para el combate en directo.
-
-▸ THEPROGRAMMER — DISEÑO EN FRÍO
-Entorno de programación offline con timeline visual, simulador 3D de venue y previsualización fotorrealista. Diseña el show completo antes de llegar al venue. Importa planos CAD y archivos .gdtf/.mvr para simulación exacta.
-
-▸ HYPERION — COMBATE EN VIVO
-Interface minimalista diseñada para uso bajo presión extrema. Botones grandes, feedback visual inmediato, y zero-latency response. Cada acción tiene confirmación háptica si hay controlador externo conectado.
-
-▸ LIVESTAGE 3D A 60fps
-Visualización tridimensional del venue en tiempo real a 60 fotogramas por segundo. Ve exactamente lo que está ocurriendo en el escenario desde cualquier ángulo de cámara virtual.
-
-▸ HANDOFF INTELIGENTE
-La transición entre control manual y control IA es completamente fluida. Selene detecta cuando el operador "suelta" un fixture y retoma el control con un crossfade de 200ms para que el público nunca perciba el cambio.
-
-▸ MIDI/OSC NATIVO
-Conecta cualquier controlador MIDI o OSC: Akai APC, Ableton Push, iPad con TouchOSC, o hardware a medida. El sistema de mapeo visual permite asignar cualquier función a cualquier control en segundos.`,
-    coverImage: '/src/assets/Evento18.jpeg',
-    gallery: [{ id: 'lx6-1', type: 'image', url: '/src/assets/Evento18.jpeg' }],
+    fullReport: hyperionMd,
+    coverImage: '/src/assets/app-hyperion-thumb.jpg', 
+    gallery: [
+      { id: 'm11', type: 'video' as const, url: '/src/assets/demo-hyperion-3d.mp4' },
+      { id: 'm12', type: 'image' as const, url: '/src/assets/app-hyperion-interface.jpg' }
+    ]
   },
   {
-    id: 'lx-007',
-    role: 'FLUJO EN FRÍO',
-    title: 'PRE-SHOW WORKSPACE',
+    id: 'lx-007', role: 'FLUJO EN FRÍO', title: 'PRE-SHOW WORKSPACE',
     shortDescription: 'DMX Nexus, ForgeView, WheelSmith y CalibrationLab. El trabajo invisible que hace posible el show visible.',
-    longDescription: `PRE-SHOW WORKSPACE — El Arsenal de las Sombras
-
-El 80% del trabajo de iluminación ocurre antes de que el público entre. Pre-Show Workspace concentra todas las herramientas de preparación en un único entorno integrado.
-
-▸ DMX NEXUS — PATCHEO UNIVERSAL
-Interface visual de patcheo DMX con detección automática de fixtures conectados via RDM. Drag & drop para asignar universos, direcciones y perfiles. Detecta conflictos de direcciones en tiempo real y los resuelve con un clic.
-
-▸ FORGEVIEW — VISUALIZACIÓN DE VENUE
-Editor 3D de planos de escenario con librería de superficies (suelo, paredes, pantallas, estructuras). Importa geometría de CAD o construye el venue en el propio editor. La simulación de rayos de luz es físicamente correcta.
-
-▸ WHEELSMITH — EDITOR DE GOBO/COLOR
-Editor gráfico para crear y gestionar ruedas de gobo y color personalizadas. Importa imágenes SVG/PNG como gobos custom. Preview en tiempo real del resultado en el simulador de venue.
-
-▸ CALIBRATIONLAB — SETUP DE FIXTURE
-Sistema de calibración asistida para ajuste fino de pan/tilt, alineación de haces y nivelación de fixtures. El proceso guiado asegura que todos los moving heads respondan de forma idéntica a los mismos valores DMX.
-
-▸ EXPORTACIÓN PARA GIRA
-Empaqueta toda la configuración del show (perfiles, patches, presets, timelines) en un archivo único firmado digitalmente. Transferible entre instalaciones en segundos. Historial de versiones incorporado.`,
-    coverImage: '/src/assets/evento-main.jpeg',
-    gallery: [{ id: 'lx7-1', type: 'image', url: '/src/assets/evento-main.jpeg' }],
-  },
+    fullReport: preshowMd,
+    coverImage: '/src/assets/app-preshow-thumb.jpg', 
+    gallery: [
+      { id: 'm13', type: 'video' as const, url: '/src/assets/demo-preshow-workspace.mp4' },
+      { id: 'm14', type: 'image' as const, url: '/src/assets/app-preshow-tools.jpg' }
+    ]
+  }
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -217,6 +112,7 @@ Empaqueta toda la configuración del show (perfiles, patches, presets, timelines
 export default function LuxSync() {
   const [activeModule, setActiveModule] = useState<LuxModule>(LUXSYNC_DATA[0]);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const textVisorRef = useRef<HTMLDivElement>(null);
 
@@ -264,23 +160,38 @@ export default function LuxSync() {
 
           {/* A) VISOR HD — 40% con acentos naranja */}
           <div className="w-full md:w-[40%] h-[30vh] md:h-full bg-black relative shrink-0">
-            {currentAsset.type === 'video' ? (
-              <video
-                key={currentAsset.id}
-                src={currentAsset.url}
-                controls
-                className="w-full h-full object-contain"
-              />
-            ) : (
-              <img
-                key={currentAsset.id}
-                src={currentAsset.url}
-                alt={activeModule.title}
-                className="w-full h-full object-contain"
-              />
-            )}
+            {/* Wrapper group para el hover del botón Maximize */}
+            <div className="w-full h-full relative group">
+              {currentAsset.type === 'video' ? (
+                <video
+                  key={currentAsset.id}
+                  src={currentAsset.url}
+                  controls
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <img
+                  key={currentAsset.id}
+                  src={currentAsset.url}
+                  alt={activeModule.title}
+                  className="w-full h-full object-contain"
+                />
+              )}
 
-            {/* Flecha PREV */}
+              {/* Botón Maximizar — z-30 para estar por encima de las flechas z-20 */}
+              {currentAsset.type === 'image' && (
+                <button
+                  onClick={() => setIsFullscreen(true)}
+                  className="absolute top-3 right-3 z-30 p-2 bg-space-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-white"
+                  aria-label="Ampliar imagen"
+                  title="Ver en pantalla completa"
+                >
+                  <Maximize size={18} />
+                </button>
+              )}
+            </div>
+
+            {/* Flecha PREV — z-20 */}
             {galleryLen > 1 && (
               <button
                 onClick={handlePrevMedia}
@@ -291,7 +202,7 @@ export default function LuxSync() {
               </button>
             )}
 
-            {/* Flecha NEXT */}
+            {/* Flecha NEXT — z-20 */}
             {galleryLen > 1 && (
               <button
                 onClick={handleNextMedia}
@@ -330,9 +241,9 @@ export default function LuxSync() {
               {activeModule.title}
             </h2>
 
-            <p className="font-sans text-sm md:text-base text-white/80 whitespace-pre-line leading-relaxed">
-              {activeModule.longDescription}
-            </p>
+            <div className="prose prose-invert prose-orange max-w-none prose-headings:text-neon-cyan prose-h1:text-2xl prose-h2:text-xl prose-p:text-white/80 prose-p:leading-relaxed prose-a:text-mg-orange prose-strong:text-mg-orange">
+              <ReactMarkdown>{activeModule.fullReport}</ReactMarkdown>
+            </div>
 
             {/* Dot indicators de módulo */}
             <div className="flex items-center gap-1.5 mt-6 shrink-0 flex-wrap">
@@ -415,6 +326,23 @@ export default function LuxSync() {
         </div>
 
       </div>
+
+      {/* MODAL LIGHTBOX — pantalla completa para imágenes */}
+      {isFullscreen && currentAsset.type === 'image' && (
+        <div
+          className="fixed inset-0 z-100 bg-space-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+          onClick={() => setIsFullscreen(false)}
+        >
+          <img
+            src={currentAsset.url}
+            alt={activeModule.title}
+            className="max-w-full max-h-full object-contain shadow-[0_0_100px_rgba(255,138,0,0.15)]"
+          />
+          <span className="absolute top-6 right-6 text-white/50 font-display tracking-widest text-xs">
+            [ CLIC PARA CERRAR ]
+          </span>
+        </div>
+      )}
     </div>
   );
 }

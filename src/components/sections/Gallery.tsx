@@ -39,7 +39,9 @@ export default function Gallery() {
     return matchTab && matchCat;
   });
 
+  // Si el activeItem no existe en la lista filtrada, usamos el primero disponible
   const activeIdx = filtered.findIndex((m) => m.id === activeItem.id);
+  const currentItem = activeIdx >= 0 ? activeItem : (filtered[0] ?? activeItem);
 
   const handleTabChange = (tab: 'photo' | 'video') => {
     setActiveTab(tab);
@@ -83,13 +85,26 @@ export default function Gallery() {
         {/* PROYECTOR HD */}
         <div className="h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/30">
 
-          {activeItem.type === 'video' ? (
-            <video key={activeItem.id} src={activeItem.src} controls className="w-full h-full object-contain" />
-          ) : (
-            <img key={activeItem.id} src={activeItem.src} alt={activeItem.title} className="w-full h-full object-contain" />
-          )}
+          {/* Wrapper group para hover del botón Maximize */}
+          <div className="w-full h-full relative group">
+            {currentItem.type === 'video' ? (
+              <video key={currentItem.id} src={currentItem.src} controls className="w-full h-full object-contain" />
+            ) : (
+              <img key={currentItem.id} src={currentItem.src} alt={currentItem.title} className="w-full h-full object-contain" />
+            )}
 
-          {/* Flecha PREV */}
+            {/* Botón EXPANDIR — z-30 para estar siempre por encima de las flechas z-20 */}
+            <button
+              onClick={() => setShowModal(true)}
+              className="absolute top-3 right-3 z-30 p-2 bg-space-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-white"
+              title="Ver en HD"
+              aria-label="Ampliar"
+            >
+              <Maximize size={18} />
+            </button>
+          </div>
+
+          {/* Flecha PREV — z-20 */}
           {filtered.length > 1 && (
             <button
               onClick={handlePrev}
@@ -100,7 +115,7 @@ export default function Gallery() {
             </button>
           )}
 
-          {/* Flecha NEXT */}
+          {/* Flecha NEXT — z-20 */}
           {filtered.length > 1 && (
             <button
               onClick={handleNext}
@@ -114,26 +129,17 @@ export default function Gallery() {
           {/* HUD  contador + titulo */}
           <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2">
             <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
-              {activeItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
+              {currentItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
             </span>
             {filtered.length > 1 && (
               <span className="font-display text-[10px] tracking-widest text-neon-cyan/70 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm">
-                {activeIdx + 1} / {filtered.length}
+                {Math.max(activeIdx, 0) + 1} / {filtered.length}
               </span>
             )}
             <span className="hidden sm:block font-sans text-xs text-white/80 bg-space-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-40">
-              {activeItem.title}
+              {currentItem.title}
             </span>
           </div>
-
-          {/* Boton EXPANDIR */}
-          <button
-            onClick={() => setShowModal(true)}
-            className="absolute top-2 right-2 z-10 p-1.5 rounded bg-space-black/70 text-neon-cyan/70 hover:text-neon-cyan hover:bg-space-black/90 transition-all duration-200 backdrop-blur-sm border border-neon-cyan/20 hover:border-neon-cyan/50"
-            title="Ver en HD"
-          >
-            <Maximize size={18} />
-          </button>
         </div>
 
         {/* FILA INFERIOR */}
@@ -211,28 +217,37 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* MODAL HD */}
+      {/* MODAL HD — usa currentItem para consistencia con filtros */}
       {showModal && (
-        <div className="fixed inset-0 z-100 bg-space-black/95 flex items-center justify-center">
-          <button
-            onClick={() => setShowModal(false)}
-            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/5 text-white/70 hover:text-mg-orange hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-mg-orange/40"
-          >
-            <X size={24} />
-          </button>
-          {activeItem.type === 'video' ? (
-            <video key={`modal-${activeItem.id}`} src={activeItem.src} controls autoPlay className="max-h-[90vh] max-w-[95vw] object-contain" />
-          ) : (
-            <img key={`modal-${activeItem.id}`} src={activeItem.src} alt={activeItem.title} className="max-h-[90vh] max-w-[95vw] object-contain" />
-          )}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
-            <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-3 py-1 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
-              {activeItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
-            </span>
-            <span className="font-sans text-sm text-white/80 bg-space-black/60 px-3 py-1 rounded-sm backdrop-blur-sm">
-              {activeItem.title}
-            </span>
+        <div
+          className="fixed inset-0 z-100 bg-space-black/95 backdrop-blur-2xl flex items-center justify-center cursor-zoom-out"
+          onClick={() => setShowModal(false)}
+        >
+          {/* Evitar que click en el contenido cierre el modal */}
+          <div className="relative flex items-center justify-center p-4 md:p-8 max-h-screen max-w-screen" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 z-10 p-2 rounded-full bg-white/5 text-white/70 hover:text-mg-orange hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-mg-orange/40"
+            >
+              <X size={24} />
+            </button>
+            {currentItem.type === 'video' ? (
+              <video key={`modal-${currentItem.id}`} src={currentItem.src} controls autoPlay className="max-h-[90vh] max-w-[95vw] object-contain" />
+            ) : (
+              <img key={`modal-${currentItem.id}`} src={currentItem.src} alt={currentItem.title} className="max-h-[90vh] max-w-[95vw] object-contain shadow-[0_0_100px_rgba(0,240,255,0.1)]" />
+            )}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-3">
+              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-3 py-1 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
+                {currentItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
+              </span>
+              <span className="font-sans text-sm text-white/80 bg-space-black/60 px-3 py-1 rounded-sm backdrop-blur-sm">
+                {currentItem.title}
+              </span>
+            </div>
           </div>
+          <span className="absolute top-6 right-6 text-white/40 font-display tracking-widest text-xs pointer-events-none">
+            [ CLIC FUERA PARA CERRAR ]
+          </span>
         </div>
       )}
     </div>

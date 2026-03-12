@@ -22,7 +22,7 @@ export default function App() {
         className="fixed inset-0 pointer-events-none"
         style={{
           zIndex: 0,
-          background: 'radial-gradient(ellipse 85% 70% at 50% 50%, rgba(5,5,8,0.15) 0%, #050508 90%)',
+          background: 'radial-gradient(ellipse 85% 70% at 50% 50%, transparent 40%, rgba(5,5,8,0.55) 100%)',
         }}
       />
 
