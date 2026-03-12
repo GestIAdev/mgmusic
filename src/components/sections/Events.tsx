@@ -1,108 +1,126 @@
 ﻿import { useState, useMemo, useRef } from 'react';
-import { MapPin, Clock, ChevronLeft, ChevronRight, CalendarDays, Ticket } from 'lucide-react';
+import { MapPin, Clock, ChevronLeft, ChevronRight, CalendarDays, Ticket, Images } from 'lucide-react';
 
 /* 
-   TIPOS
-    */
-interface MissionEvent {
-  id: number;
+   INTERFACES  (CMS-ready, flat, typed)
+═ */
+export interface MediaAsset {
+  id: string;
+  type: 'image' | 'video';
+  url: string;
+}
+
+export interface EventItem {
+  id: string;
   title: string;
-  date: string;
-  time: string;
+  date: string;          // ISO: YYYY-MM-DD
+  time: string;          // HH:MM
   location: string;
   city: string;
-  image: string;
-  thumb: string;
-  type: 'photo' | 'video';
   status: 'upcoming' | 'past';
+  coverImage: string;    // Thumbnail del grid inferior
+  gallery: MediaAsset[]; // Contenido del proyector superior
   tags: string[];
   description: string;
 }
 
 /* 
-   MISSION_DATA
-    */
-const MISSION_DATA: MissionEvent[] = [
+   MOCK DATA  (3-4 assets por evento para demo del album visor)
+ */
+const EVENTS_DATA: EventItem[] = [
   {
-    id: 1,
+    id: 'evt-001',
     title: 'NEON PROTOCOL VOL. 3',
     date: '2026-03-20',
     time: '23:00',
-    location: 'Club Parallax  Sala Principal',
+    location: 'Club Parallax, Sala Principal',
     city: 'Madrid',
-    image: '/src/assets/evento-main.jpeg',
-    thumb: '/src/assets/evento-main.jpeg',
-    type: 'photo',
     status: 'upcoming',
+    coverImage: '/src/assets/evento-main.jpeg',
+    gallery: [
+      { id: 'np3-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'np3-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'np3-3', type: 'image', url: '/src/assets/evento-main.jpeg' },
+    ],
     tags: ['Techno', 'Live AV'],
-    description: 'Una noche de música electrónica con visuales generativas en tiempo real por MG Lighting.',
+    description: 'Una noche de musica electronica con visuales generativas en tiempo real por MG Lighting.',
   },
   {
-    id: 2,
+    id: 'evt-002',
     title: 'FESTIVAL CROMO BEAT',
     date: '2026-04-05',
     time: '20:00',
     location: 'Recinto Ferial Norte',
     city: 'Barcelona',
-    image: '/src/assets/evento-main.jpeg',
-    thumb: '/src/assets/evento-main.jpeg',
-    type: 'photo',
     status: 'upcoming',
+    coverImage: '/src/assets/evento-main.jpeg',
+    gallery: [
+      { id: 'fcb-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'fcb-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
+    ],
     tags: ['Festival', 'Luces IA'],
-    description: 'Festival de 3 escenarios con sistema de iluminación inteligente sincronizado al BPM.',
+    description: 'Festival de 3 escenarios con sistema de iluminacion inteligente sincronizado al BPM.',
   },
   {
-    id: 3,
+    id: 'evt-003',
     title: 'BACKSTAGE SESSION #7',
     date: '2026-04-18',
     time: '21:30',
-    location: 'La Cúpula',
+    location: 'La Cupula',
     city: 'Valencia',
-    image: '/src/assets/evento-main.jpeg',
-    thumb: '/src/assets/evento-main.jpeg',
-    type: 'photo',
     status: 'upcoming',
+    coverImage: '/src/assets/evento-main.jpeg',
+    gallery: [
+      { id: 'bs7-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+    ],
     tags: ['Privado', 'Ambient'],
-    description: 'Sesión privada de ambient music con instalación lumínica inmersiva de 360.',
+    description: 'Sesion privada de ambient music con instalacion luminica inmersiva de 360.',
   },
   {
-    id: 4,
+    id: 'evt-004',
     title: 'DARK SIGNAL RAVE',
     date: '2026-01-15',
     time: '00:00',
     location: 'Nave Industrial 4',
     city: 'Bilbao',
-    image: '/src/assets/evento-main.jpeg',
-    thumb: '/src/assets/evento-main.jpeg',
-    type: 'photo',
     status: 'past',
+    coverImage: '/src/assets/Evento18.jpeg',
+    gallery: [
+      { id: 'dsr-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'dsr-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'dsr-3', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'dsr-4', type: 'image', url: '/src/assets/evento-main.jpeg' },
+    ],
     tags: ['Industrial', 'Techno'],
     description: 'Rave industrial con lasers y strobes programados para el set de cierre.',
   },
   {
-    id: 5,
+    id: 'evt-005',
     title: 'LUX SYNC DEMO NIGHT',
     date: '2026-02-08',
     time: '22:00',
     location: 'Studio MG HQ',
     city: 'Madrid',
-    image: '/src/assets/evento-main.jpeg',
-    thumb: '/src/assets/evento-main.jpeg',
-    type: 'photo',
     status: 'past',
+    coverImage: '/src/assets/evento-main.jpeg',
+    gallery: [
+      { id: 'lsd-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'lsd-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'lsd-3', type: 'image', url: '/src/assets/evento-main.jpeg' },
+    ],
     tags: ['Demo', 'LuxSync IA'],
-    description: 'Noche de demostración del sistema LuxSync IA para clientes y colaboradores.',
+    description: 'Noche de demostracion del sistema LuxSync IA para clientes y colaboradores.',
   },
 ];
 
 /* 
-   HELPERS DE FECHA  100% JS nativo, cero librerías
-    */
+   HELPERS DE FECHA  (100% JS nativo)
+ */
 const MONTHS_ES = [
   'Enero','Febrero','Marzo','Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre',
 ];
-const DAYS_SHORT = ['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
+const DAYS_SHORT = ['Lu','Ma','Mi','Ju','Vi','Sa','Do'];
 
 function parseLocalDate(iso: string): Date {
   const [y, m, d] = iso.split('-').map(Number);
@@ -116,12 +134,12 @@ function isSameDay(a: Date, b: Date) {
 }
 
 function buildMonthGrid(year: number, month: number): (Date | null)[] {
-  const firstDay = new Date(year, month, 1);
-  const startPad = (firstDay.getDay() + 6) % 7;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay  = new Date(year, month, 1);
+  const startPad  = (firstDay.getDay() + 6) % 7;
+  const daysInMo  = new Date(year, month + 1, 0).getDate();
   const grid: (Date | null)[] = [];
   for (let i = 0; i < startPad; i++) grid.push(null);
-  for (let d = 1; d <= daysInMonth; d++) grid.push(new Date(year, month, d));
+  for (let d = 1; d <= daysInMo; d++) grid.push(new Date(year, month, d));
   return grid;
 }
 
@@ -131,34 +149,39 @@ function fmtDate(iso: string): string {
 }
 
 /* 
-   COMPONENTE
-    */
+   COMPONENTE PRINCIPAL
+ */
 export default function Events() {
   const today = new Date();
 
-  const [activeEvent, setActiveEvent] = useState<MissionEvent>(
-    MISSION_DATA.find((e) => e.status === 'upcoming') ?? MISSION_DATA[0]
+  /*  Estados  */
+  const [activeEvent, setActiveEvent] = useState<EventItem>(
+    EVENTS_DATA.find((e) => e.status === 'upcoming') ?? EVENTS_DATA[0]
   );
-  const [activeTab, setActiveTab]   = useState<'upcoming' | 'past'>('upcoming');
-  const [calYear, setCalYear]       = useState(today.getFullYear());
-  const [calMonth, setCalMonth]     = useState(today.getMonth());
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [activeTab, setActiveTab]                 = useState<'upcoming' | 'past'>('upcoming');
+  const [calYear, setCalYear]                     = useState(today.getFullYear());
+  const [calMonth, setCalMonth]                   = useState(today.getMonth());
   const cardsRef = useRef<HTMLDivElement>(null);
 
+  /*  Helpers de calendario  */
   const eventDates = useMemo(
-    () => MISSION_DATA.map((e) => parseLocalDate(e.date)),
+    () => EVENTS_DATA.map((e) => parseLocalDate(e.date)),
     []
   );
-
-  const hasEvent  = (d: Date | null) => d ? eventDates.some((ed) => isSameDay(ed, d)) : false;
-  const isActive  = (d: Date | null) => d ? isSameDay(d, parseLocalDate(activeEvent.date)) : false;
+  const hasEvent = (d: Date | null) =>
+    d ? eventDates.some((ed) => isSameDay(ed, d)) : false;
+  const isActive = (d: Date | null) =>
+    d ? isSameDay(d, parseLocalDate(activeEvent.date)) : false;
 
   const monthGrid = useMemo(
     () => buildMonthGrid(calYear, calMonth),
     [calYear, calMonth]
   );
 
-  const filteredCards = MISSION_DATA.filter((e) => e.status === activeTab);
+  const filteredCards = EVENTS_DATA.filter((e) => e.status === activeTab);
 
+  /*  Navegacion de calendario  */
   const prevMonth = () => {
     if (calMonth === 0) { setCalMonth(11); setCalYear((y) => y - 1); }
     else setCalMonth((m) => m - 1);
@@ -168,98 +191,98 @@ export default function Events() {
     else setCalMonth((m) => m + 1);
   };
 
-  const handleDayClick = (d: Date | null) => {
-    if (!d || !hasEvent(d)) return;
-    const ev = MISSION_DATA.find((e) => isSameDay(parseLocalDate(e.date), d));
-    if (ev) { setActiveEvent(ev); setActiveTab(ev.status); }
-  };
-
-  /* ── Carrusel: navega dentro del tab activo ── */
-  const scrollCardIntoView = (ev: MissionEvent) => {
+  /*  Seleccionar evento (grid o calendario): resetea el indice de media  */
+  const selectEvent = (ev: EventItem) => {
+    setActiveEvent(ev);
+    setCurrentMediaIndex(0);
+    setActiveTab(ev.status);
     setTimeout(() => {
       const el = cardsRef.current?.querySelector(`[data-id="${ev.id}"]`) as HTMLElement | null;
       el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }, 50);
   };
 
-  const handlePrevEvent = () => {
-    const list = MISSION_DATA.filter((e) => e.status === activeTab);
-    if (list.length < 2) return;
-    const idx = list.findIndex((e) => e.id === activeEvent.id);
-    const prev = list[(idx - 1 + list.length) % list.length];
-    setActiveEvent(prev);
-    scrollCardIntoView(prev);
+  const handleDayClick = (d: Date | null) => {
+    if (!d || !hasEvent(d)) return;
+    const ev = EVENTS_DATA.find((e) => isSameDay(parseLocalDate(e.date), d));
+    if (ev) selectEvent(ev);
   };
 
-  const handleNextEvent = () => {
-    const list = MISSION_DATA.filter((e) => e.status === activeTab);
-    if (list.length < 2) return;
-    const idx = list.findIndex((e) => e.id === activeEvent.id);
-    const next = list[(idx + 1) % list.length];
-    setActiveEvent(next);
-    scrollCardIntoView(next);
+  /*  Carrusel del album: navega dentro de activeEvent.gallery  */
+  const gallery        = activeEvent.gallery;
+  const galleryLen     = gallery.length;
+  const currentAsset   = gallery[currentMediaIndex] ?? gallery[0];
+
+  const handlePrevMedia = () => {
+    setCurrentMediaIndex((i) => (i - 1 + galleryLen) % galleryLen);
+  };
+  const handleNextMedia = () => {
+    setCurrentMediaIndex((i) => (i + 1) % galleryLen);
   };
 
-  /* Cuántos eventos hay en el tab activo */
-  const tabList = MISSION_DATA.filter((e) => e.status === activeTab);
-  const tabIdx  = tabList.findIndex((e) => e.id === activeEvent.id);
-
+  /* 
+     JSX
+   */
   return (
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
 
       {/* VENTANA MAESTRA */}
       <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/90 backdrop-blur-md flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
 
-        {/* FILA SUPERIOR: Visor HD (65%) + Panel Datos (35%)  45vh desktop */}
+        {/* FILA SUPERIOR: Proyector Album (65%) + Panel Datos (35%) */}
         <div className="flex flex-col md:flex-row w-full md:h-[45vh] border-b border-neon-cyan/30">
 
-          {/* A) VISOR HD */}
+          {/* A) PROYECTOR DE ALBUM */}
           <div className="w-full md:w-[65%] h-[30vh] md:h-full bg-black relative shrink-0">
-            {activeEvent.type === 'video' ? (
+
+            {/* Reproductor: navega por gallery del evento activo */}
+            {currentAsset.type === 'video' ? (
               <video
-                key={activeEvent.id}
-                src={activeEvent.image}
+                key={currentAsset.id}
+                src={currentAsset.url}
                 controls
                 className="w-full h-full object-contain"
               />
             ) : (
               <img
-                key={activeEvent.id}
-                src={activeEvent.image}
+                key={currentAsset.id}
+                src={currentAsset.url}
                 alt={activeEvent.title}
                 className="w-full h-full object-contain"
               />
             )}
 
-            {/* Flecha PREV */}
-            {tabList.length > 1 && (
+            {/* Flecha PREV  solo si el album tiene >1 asset */}
+            {galleryLen > 1 && (
               <button
-                onClick={handlePrevEvent}
+                onClick={handlePrevMedia}
                 className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
-                aria-label="Evento anterior"
+                aria-label="Media anterior"
               >
                 <ChevronLeft size={28} />
               </button>
             )}
 
             {/* Flecha NEXT */}
-            {tabList.length > 1 && (
+            {galleryLen > 1 && (
               <button
-                onClick={handleNextEvent}
+                onClick={handleNextMedia}
                 className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
-                aria-label="Evento siguiente"
+                aria-label="Media siguiente"
               >
                 <ChevronRight size={28} />
               </button>
             )}
 
-            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2">
+            {/* HUD inferior: estado + contador album + titulo */}
+            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2 flex-wrap">
               <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
-                {activeEvent.status === 'upcoming' ? 'PRÓXIMO' : 'ARCHIVO'}
+                {activeEvent.status === 'upcoming' ? 'PROXIMO' : 'ARCHIVO'}
               </span>
-              {tabList.length > 1 && (
-                <span className="font-display text-[10px] tracking-widest text-neon-cyan/70 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm">
-                  {tabIdx + 1} / {tabList.length}
+              {galleryLen > 1 && (
+                <span className="font-display text-[10px] tracking-widest text-neon-cyan/80 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
+                  <Images size={10} />
+                  {currentMediaIndex + 1} / {galleryLen}
                 </span>
               )}
               <span className="hidden sm:block font-sans text-xs text-white/70 bg-space-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-48">
@@ -299,7 +322,9 @@ export default function Events() {
                 <MapPin size={14} className="text-mg-orange/70 shrink-0" />
                 <span className="font-sans text-sm">{activeEvent.location}</span>
               </div>
-              <span className="font-display text-[10px] tracking-widest text-white/40 ml-6">{activeEvent.city.toUpperCase()}</span>
+              <span className="font-display text-[10px] tracking-widest text-white/40 ml-6">
+                {activeEvent.city.toUpperCase()}
+              </span>
             </div>
 
             {activeEvent.status === 'upcoming' ? (
@@ -308,17 +333,18 @@ export default function Events() {
                 ENTRADAS / INFO
               </button>
             ) : (
-              <div className="w-full py-3 font-display text-sm tracking-widest uppercase border border-white/10 text-white/30 flex items-center justify-center">
-                EVENTO FINALIZADO
-              </div>
+              <button className="w-full py-3 font-display text-sm tracking-widest uppercase bg-neon-cyan/5 border border-neon-cyan/20 text-neon-cyan/50 hover:bg-neon-cyan/10 hover:text-neon-cyan/80 transition-all duration-300 flex items-center justify-center gap-2">
+                <Images size={16} />
+                VER ALBUM COMPLETO
+              </button>
             )}
           </div>
         </div>
 
-        {/* FILA INFERIOR: Calendario (35%) + Misiones (65%) */}
+        {/* FILA INFERIOR: Calendario (35%) + Grid de Eventos (65%) */}
         <div className="flex flex-col md:flex-row w-full flex-1 min-h-[40vh]">
 
-          {/* A) CALENDARIO TÁCTICO */}
+          {/* A) CALENDARIO TACTICO */}
           <div className="w-full md:w-[35%] p-4 border-b md:border-b-0 md:border-r border-neon-cyan/30 flex flex-col">
 
             <div className="flex items-center justify-between mb-3 shrink-0">
@@ -371,12 +397,13 @@ export default function Events() {
             </div>
           </div>
 
-          {/* B) GRID DE MISIONES */}
+          {/* B) GRID DE EVENTOS */}
           <div className="w-full md:w-[65%] p-4 flex flex-col min-h-0">
 
+            {/* Tabs: Proximos / Pasados */}
             <div className="flex shrink-0 border-b border-white/10 mb-3">
               {(['upcoming', 'past'] as const).map((tab) => {
-                const label = tab === 'upcoming' ? 'PRÓXIMOS EVENTOS' : 'EVENTOS PASADOS';
+                const label = tab === 'upcoming' ? 'PROXIMOS EVENTOS' : 'EVENTOS PASADOS';
                 const isAct = activeTab === tab;
                 return (
                   <button
@@ -395,10 +422,11 @@ export default function Events() {
               })}
             </div>
 
+            {/* Grid de miniaturas  coverImage del EventItem */}
             <div ref={cardsRef} className="flex-1 overflow-y-auto scrollbar-hide">
               {filteredCards.length === 0 ? (
                 <p className="text-center text-gray-600 font-display text-xs tracking-widest pt-8 uppercase">
-                  Sin eventos en esta categoría
+                  Sin eventos en esta categoria
                 </p>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -408,7 +436,7 @@ export default function Events() {
                       <button
                         key={ev.id}
                         data-id={ev.id}
-                        onClick={() => setActiveEvent(ev)}
+                        onClick={() => selectEvent(ev)}
                         className={`relative aspect-4/3 overflow-hidden rounded-sm text-left transition-all duration-300 group ${
                           isSelected
                             ? 'border-2 border-mg-orange shadow-[0_0_20px_rgba(255,138,0,0.4)]'
@@ -416,11 +444,20 @@ export default function Events() {
                         }`}
                       >
                         <img
-                          src={ev.thumb}
+                          src={ev.coverImage}
                           alt={ev.title}
                           className="absolute inset-0 w-full h-full object-cover brightness-50 group-hover:brightness-60 transition-all duration-300"
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-space-black/90 via-space-black/30 to-transparent" />
+
+                        {/* Badge cantidad de assets en el album */}
+                        {ev.gallery.length > 1 && (
+                          <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-space-black/70 border border-neon-cyan/20 rounded-sm px-1.5 py-0.5 backdrop-blur-sm">
+                            <Images size={8} className="text-neon-cyan/60" />
+                            <span className="font-display text-[8px] text-neon-cyan/60">{ev.gallery.length}</span>
+                          </div>
+                        )}
+
                         <div className="absolute bottom-0 inset-x-0 p-2.5">
                           <div className="flex gap-1 flex-wrap mb-1">
                             {ev.tags.slice(0, 2).map((t) => (
@@ -439,6 +476,7 @@ export default function Events() {
                             <span className="font-sans text-[9px]">{ev.city}</span>
                           </div>
                         </div>
+
                         {isSelected && (
                           <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-mg-orange shadow-[0_0_8px_#FF8A00]" />
                         )}
