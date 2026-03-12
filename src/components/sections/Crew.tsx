@@ -20,84 +20,70 @@ export interface CrewMember {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CREW DATA  (6 miembros, mini-albumes multimedia)
+   CREW DATA  (6 miembros, mini-álbumes multimedia con Copy Táctico)
 ═══════════════════════════════════════════════════════════════ */
 const CREW_DATA: CrewMember[] = [
   {
     id: 'crew-001',
-    role: 'EL SHOWRUNNER',
-    title: 'Direccion General & Vision Creativa',
-    description:
-      'Cerebro operativo de cada produccion MG. Coordina todos los departamentos, desde la pre-produccion hasta la ejecucion en vivo. Su mision: que la audiencia sienta cada frecuencia.',
+    role: 'DIRECCIÓN GENERAL',
+    title: 'EL SHOWRUNNER',
+    description: 'La mente maestra detrás del telón. Coordinación absoluta y gestión de crisis en tiempo real. Si el evento es un éxito sin precedentes y todo fluye con la precisión de un reloj suizo, es porque él está al mando. La cara visible que asegura que tu única preocupación sea disfrutar.',
     coverImage: '/src/assets/evento-main.jpeg',
     gallery: [
       { id: 'sr-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
       { id: 'sr-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'sr-3', type: 'image', url: '/src/assets/evento-main.jpeg' },
     ],
   },
   {
     id: 'crew-002',
-    role: 'INGENIERIA ACUSTICA',
-    title: 'Arquitectura Sonora de Alta Fidelidad',
-    description:
-      'Responsable del diseno, calibracion y despliegue de sistemas PA de gran formato. Line arrays, subgraves cardoides y DSP en tiempo real para cobertura homogenea en cualquier venue.',
+    role: 'ESPECIALISTAS EN SONIDO',
+    title: 'INGENIERÍA ACÚSTICA',
+    description: 'Nuestro seguro de vida a prueba de fallos. Operadores fogueados en el montaje de grandes escenarios, bandas en vivo y festivales itinerantes. Trabajan en las sombras con equipos de ecualización de última generación para garantizar que el pecho te vibre a 120 BPM sin escuchar un solo acople.',
     coverImage: '/src/assets/Evento18.jpeg',
     gallery: [
       { id: 'ia-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
       { id: 'ia-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
-      { id: 'ia-3', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'ia-4', type: 'image', url: '/src/assets/evento-main.jpeg' },
     ],
   },
   {
     id: 'crew-003',
-    role: 'ARSENAL LUMINICO',
-    title: 'Diseno de Iluminacion & Visuales',
-    description:
-      'Programacion de shows luminicos con moving heads, lasers y LED mapping. Cada secuencia se sincroniza al BPM para crear una experiencia audiovisual envolvente e irrepetible.',
+    role: 'ILUMINACIÓN & VISUALES',
+    title: 'ARSENAL LUMÍNICO',
+    description: 'Fotones controlados a voluntad. Desplegamos desde iluminación arquitectónica sutil para dar un toque de elegancia pura, hasta fixtures robóticas y láseres de alta intensidad para desatar la locura. Adaptamos el espectro visual exactamente al contexto y la energía que exige la noche.',
     coverImage: '/src/assets/evento-main.jpeg',
     gallery: [
       { id: 'al-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
-      { id: 'al-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
     ],
   },
   {
     id: 'crew-004',
-    role: 'VANGUARDIA SONORA',
-    title: 'DJ Set & Curaduria Musical',
-    description:
-      'Seleccion musical de vanguardia con transiciones quirurgicas. Desde techno industrial hasta ambient cinematico, cada set se construye como un viaje narrativo de principio a fin.',
+    role: 'DJS & SELECCIÓN MUSICAL',
+    title: 'VANGUARDIA SONORA',
+    description: 'Lectores de pistas implacables. No solo reproducen música, controlan la psicología de la sala. Con un repertorio inagotable y una técnica de mezcla impecable, saben exactamente qué frecuencia soltar para que la energía nunca caiga. Transiciones quirúrgicas y curaduría de élite.',
     coverImage: '/src/assets/Evento18.jpeg',
     gallery: [
       { id: 'vs-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
       { id: 'vs-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
-      { id: 'vs-3', type: 'image', url: '/src/assets/Evento18.jpeg' },
     ],
   },
   {
     id: 'crew-005',
-    role: 'DESPLIEGUE LOGISTICO',
-    title: 'Operaciones de Campo & Transporte',
-    description:
-      'Gestion integral de la logistica: carga, transporte, montaje y desmontaje. Planificacion milimetrica para que 20 toneladas de equipo esten operativas antes del soundcheck.',
+    role: 'INFRAESTRUCTURA & MONTAJE',
+    title: 'DESPLIEGUE LOGÍSTICO',
+    description: 'Operaciones especiales para cualquier terreno. Montaje de escenarios, pantallas LED modulares y estructuras verticales. Desde el latido de un club nocturno hasta bodas exclusivas o cumbres corporativas de élite (Sancor, Bayer, Pfizer). Transformamos el espacio con precisión técnica y la mejor de nuestras sonrisas.',
     coverImage: '/src/assets/evento-main.jpeg',
     gallery: [
       { id: 'dl-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
-      { id: 'dl-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'dl-3', type: 'image', url: '/src/assets/evento-main.jpeg' },
     ],
   },
   {
     id: 'crew-006',
-    role: 'PROYECTO LUXSYNC',
-    title: 'Inteligencia Artificial Aplicada al Show',
-    description:
-      'Desarrollo del sistema LuxSync IA: analisis de audio en tiempo real para generar respuestas luminicas autonomas. El futuro de la iluminacion reactiva, nacido en el laboratorio MG.',
+    role: 'INNOVACIÓN & DESARROLLO',
+    title: 'PROYECTO LUXSYNC [ BETA ]',
+    description: 'El futuro ya está aquí, y lo estamos testeando nosotros. El primer software de iluminación contextual por IA del mercado. Capaz de generar desde texturas ambientales inmersivas y elegantes, hasta desatar la furia cinética del techno más agresivo. La fusión definitiva entre la máquina y la pista de baile.',
     coverImage: '/src/assets/Evento18.jpeg',
     gallery: [
       { id: 'ls-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'ls-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
     ],
   },
 ];
@@ -202,15 +188,15 @@ export default function Crew() {
 
           {/* B) PANEL DE DATOS — 50% Glassmorphism */}
           <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center border-t md:border-t-0 md:border-l border-neon-cyan/30 bg-white/5 backdrop-blur-md">
-            <span className="font-display text-xs tracking-[0.3em] text-neon-cyan uppercase mb-3">
+            <span className="font-display text-xs md:text-sm lg:text-base tracking-[0.3em] text-neon-cyan uppercase mb-3">
               {activeMember.role}
             </span>
 
-            <h2 className="font-display text-xl md:text-2xl text-mg-orange text-glow-orange leading-tight mb-4 uppercase tracking-wider">
+            <h2 className="font-display text-xl md:text-3xl lg:text-4xl text-mg-orange text-glow-orange leading-tight mb-4 uppercase tracking-wider">
               {activeMember.title}
             </h2>
 
-            <p className="font-sans text-sm text-white/60 leading-relaxed mb-6">
+            <p className="font-sans text-sm md:text-base lg:text-lg text-white/60 leading-relaxed mb-6">
               {activeMember.description}
             </p>
 
@@ -281,17 +267,17 @@ export default function Crew() {
 
                   {/* Info */}
                   <div className="p-4 flex flex-col gap-1.5">
-                    <span className="font-display text-[9px] tracking-[0.25em] text-neon-cyan/70 uppercase">
+                    <span className="font-display text-[9px] md:text-[10px] lg:text-xs tracking-[0.25em] text-neon-cyan/70 uppercase">
                       {member.role}
                     </span>
                     <h3
-                      className={`font-display text-sm tracking-wider uppercase leading-tight transition-colors duration-300 ${
+                      className={`font-display text-sm md:text-base lg:text-lg tracking-wider uppercase leading-tight transition-colors duration-300 ${
                         isSelected ? 'text-mg-orange' : 'text-white/80 group-hover:text-mg-orange/80'
                       }`}
                     >
                       {member.title}
                     </h3>
-                    <p className="font-sans text-[11px] text-white/40 leading-relaxed line-clamp-2">
+                    <p className="font-sans text-[11px] md:text-xs lg:text-sm text-white/40 leading-relaxed line-clamp-2">
                       {member.description}
                     </p>
                   </div>
