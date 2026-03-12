@@ -296,33 +296,33 @@ export default function Events() {
 
             <div className="flex flex-wrap gap-1.5 mb-4">
               {activeEvent.tags.map((tag) => (
-                <span key={tag} className="font-display text-[9px] tracking-widest px-2 py-0.5 border border-neon-cyan/30 text-neon-cyan/70 rounded-sm">
+                <span key={tag} className="font-display text-[9px] md:text-[10px] lg:text-xs tracking-widest px-2 py-0.5 border border-neon-cyan/30 text-neon-cyan/70 rounded-sm">
                   {tag}
                 </span>
               ))}
             </div>
 
-            <h2 className="font-display text-xl md:text-2xl text-mg-orange text-glow-orange leading-tight mb-4 uppercase tracking-wider">
+            <h2 className="font-display text-xl md:text-3xl lg:text-4xl text-mg-orange text-glow-orange leading-tight mb-4 uppercase tracking-wider">
               {activeEvent.title}
             </h2>
 
-            <p className="font-sans text-sm text-white/60 mb-5 leading-relaxed">
+            <p className="font-sans text-sm md:text-base lg:text-lg text-white/60 mb-5 leading-relaxed">
               {activeEvent.description}
             </p>
 
             <div className="flex flex-col gap-2 mb-6">
               <div className="flex items-center gap-2 text-neon-cyan/80">
                 <CalendarDays size={14} />
-                <span className="font-sans text-sm">{fmtDate(activeEvent.date)}</span>
+                <span className="font-sans text-sm md:text-base lg:text-lg">{fmtDate(activeEvent.date)}</span>
                 <span className="text-white/30 mx-1">·</span>
                 <Clock size={14} />
-                <span className="font-sans text-sm">{activeEvent.time}h</span>
+                <span className="font-sans text-sm md:text-base lg:text-lg">{activeEvent.time}h</span>
               </div>
               <div className="flex items-center gap-2 text-white/60">
                 <MapPin size={14} className="text-mg-orange/70 shrink-0" />
-                <span className="font-sans text-sm">{activeEvent.location}</span>
+                <span className="font-sans text-sm md:text-base lg:text-lg">{activeEvent.location}</span>
               </div>
-              <span className="font-display text-[10px] tracking-widest text-white/40 ml-6">
+              <span className="font-display text-[10px] md:text-xs lg:text-sm tracking-widest text-white/40 ml-6">
                 {activeEvent.city.toUpperCase()}
               </span>
             </div>
@@ -461,19 +461,19 @@ export default function Events() {
                         <div className="absolute bottom-0 inset-x-0 p-2.5">
                           <div className="flex gap-1 flex-wrap mb-1">
                             {ev.tags.slice(0, 2).map((t) => (
-                              <span key={t} className="font-display text-[8px] tracking-widest text-neon-cyan/60 border border-neon-cyan/20 px-1.5 py-0.5 rounded-sm">
+                              <span key={t} className="font-display text-[8px] md:text-[9px] lg:text-xs tracking-widest text-neon-cyan/60 border border-neon-cyan/20 px-1.5 py-0.5 rounded-sm">
                                 {t}
                               </span>
                             ))}
                           </div>
-                          <p className="font-display text-[10px] md:text-xs tracking-wider text-white leading-tight mb-1 truncate">
+                          <p className="font-display text-[10px] md:text-base lg:text-lg tracking-wider text-white leading-tight mb-1 truncate">
                             {ev.title}
                           </p>
                           <div className="flex items-center gap-1.5 text-white/50">
                             <CalendarDays size={9} />
-                            <span className="font-sans text-[9px]">{fmtDate(ev.date)}</span>
+                            <span className="font-sans text-[9px] md:text-xs lg:text-sm">{fmtDate(ev.date)}</span>
                             <span className="text-white/20">·</span>
-                            <span className="font-sans text-[9px]">{ev.city}</span>
+                            <span className="font-sans text-[9px] md:text-xs lg:text-sm">{ev.city}</span>
                           </div>
                         </div>
 
