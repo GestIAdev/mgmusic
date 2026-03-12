@@ -193,9 +193,7 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════
-          MODAL HD — a demanda (z-100 sobre todo)
-          ═══════════════════════════════════════════════ */}
+      {/* MODAL HD — a demanda (z-100 sobre todo) */}
       {showModal && (
         <div className="fixed inset-0 z-100 bg-space-black/95 flex items-center justify-center">
 
