@@ -230,7 +230,7 @@ export default function Crew() {
                   key={member.id}
                   data-id={member.id}
                   onClick={() => selectMember(member)}
-                  className={`relative flex flex-col bg-white/5 backdrop-blur-lg border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left ${
+                  className={`relative flex flex-col bg-space-black/30 backdrop-blur-xl border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left ${
                     isSelected
                       ? 'border-mg-orange/60 shadow-[0_0_25px_rgba(255,138,0,0.3)] bg-white/10'
                       : 'border-white/10 hover:border-mg-orange/50 hover:bg-white/10'

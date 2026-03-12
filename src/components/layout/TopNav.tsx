@@ -24,9 +24,9 @@ export default function TopNav({ activeSection, setActiveSection }: TopNavProps)
   };
 
   return (
-    <header className="relative z-50 w-full bg-surface-dark/95 backdrop-blur-md border-b border-mg-orange/20">
+    <header className="relative z-50 w-full bg-space-black/40 backdrop-blur-lg border-b border-white/5">
       {/* Resplandor inferior naranja */}
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-mg-orange to-transparent opacity-50" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-mg-orange to-transparent opacity-50" />
 
       {/* Contenedor relativo para poder centrar el nav de forma absoluta */}
       <div className="flex items-center justify-between px-4 py-4 md:px-8 relative">

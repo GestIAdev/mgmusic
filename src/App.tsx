@@ -14,7 +14,7 @@ export default function App() {
   return (
     <div className="h-screen w-screen bg-space-black text-white flex flex-col overflow-hidden relative font-sans">
       
-      {/* Canvas animado Halftone Waves — z-0, detrás de todo */}
+      {/* Canvas animado Halftone Waves — fijado detrás de todo el layout */}
       <HalftoneWaves />
 
       {/* Overlay radial: oscurece el centro para que el contenido respire */}

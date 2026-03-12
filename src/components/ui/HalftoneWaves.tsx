@@ -21,12 +21,6 @@ export default function HalftoneWaves() {
     const baseRadius = 1.8;
     const time = { value: 0 };
 
-    // Paleta MG: naranja dominante, cyan como acento mínimo
-    const C_ORANGE      = '#FF8A00'; // mg-orange — protagonista
-    const C_ORANGE_HOT  = '#FF5E00'; // mg-orange-glow — crestas calientes
-    const C_CYAN        = '#00F0FF'; // neon-cyan — acento puntual
-    const C_GRAY        = '#1a1a2a'; // puntos base fríos
-
     // Distorsión 3D con ondas cruzadas pronunciadas (inspirado en gestiadev)
     const distort = (x: number, y: number, t: number) => {
       const wave1 = Math.sin(x * 0.008 + t * 0.0009) * 28;
@@ -51,20 +45,6 @@ export default function HalftoneWaves() {
       return Math.max(0.7, baseRadius + variation + depthBoost);
     };
 
-    // Color según profundidad e intensidad — naranja 75%, cyan ~15%
-    const getColor = (x: number, y: number, t: number, depth: number, intensity: number): string => {
-      const factor = Math.abs(depth) * 0.07 + intensity * 0.5
-                   + Math.abs(Math.sin((x + y) * 0.005 + t * 0.002)) * 0.15;
-
-      if (factor > 0.55)  return C_ORANGE_HOT; // cresta caliente
-      if (factor > 0.35)  return C_ORANGE;     // naranja base
-      if (factor > 0.15) {
-        // ventana más amplia para cyan (~15% de los puntos)
-        return Math.sin(x * 0.01 + t * 0.004) > 0.68 ? C_CYAN : C_ORANGE;
-      }
-      return C_GRAY;
-    };
-
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -77,10 +57,19 @@ export default function HalftoneWaves() {
           ) continue;
 
           const r     = getRadius(x, y, time.value, d.depth);
-          const color = getColor(x, y, time.value, d.depth, d.intensity);
 
-          // Punto base
-          ctx.fillStyle = color;
+          // Lógica de color 70% Naranja / 30% Cian
+          const waveColor = Math.sin(x * 0.003 - time.value * 0.001 + Math.cos(y * 0.002));
+          const isCyan = waveColor > 0.4;
+
+          let cr: number, cg: number, cb: number;
+          if (isCyan) {
+            cr = 0; cg = 240; cb = 255;   // Cian Neón: #00F0FF
+          } else {
+            cr = 255; cg = 138; cb = 0;   // Naranja Neón: #FF8A00
+          }
+
+          ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, 0.45)`;
           ctx.beginPath();
           ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
           ctx.fill();
@@ -88,8 +77,8 @@ export default function HalftoneWaves() {
           // Glow en crestas pronunciadas (profundidad 3D)
           if (Math.abs(d.depth) > 5) {
             ctx.save();
-            ctx.shadowColor  = color;
-            ctx.shadowBlur   = color === C_CYAN ? 6 : 4;
+            ctx.shadowColor  = `rgba(${cr}, ${cg}, ${cb}, 0.8)`;
+            ctx.shadowBlur   = isCyan ? 6 : 4;
             ctx.beginPath();
             ctx.arc(d.x, d.y, r * 0.15, 0, Math.PI * 2);
             ctx.fill();
@@ -123,7 +112,7 @@ export default function HalftoneWaves() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.55 }}
+      style={{ zIndex: -1, opacity: 0.55 }}
       aria-hidden="true"
     />
   );
