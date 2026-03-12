@@ -112,7 +112,7 @@ export default function HalftoneWaves() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.75 }}
+      style={{ zIndex: 0, opacity: 1 }}
       aria-hidden="true"
     />
   );
