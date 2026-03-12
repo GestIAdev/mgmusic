@@ -16,12 +16,12 @@
 
 @layer base {
   body {
-    background-color: var(--color-space-black);
     color: white;
     overflow: hidden;
     height: 100vh;
     width: 100vw;
     font-family: var(--font-sans);
+    background-color: #050508; /* Fallback only, covered by HalftoneWaves */
   }
 
   h1, h2, h3, h4, h5, h6 {

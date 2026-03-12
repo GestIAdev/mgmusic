@@ -78,7 +78,7 @@ export default function Gallery() {
 
   return (
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
-      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/90 backdrop-blur-md flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
+      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
 
         {/* PROYECTOR HD */}
         <div className="h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/30">

@@ -12,7 +12,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
 
   return (
-    <div className="h-screen w-screen text-white flex flex-col overflow-hidden relative font-sans">
+    <div className="h-screen w-screen text-white flex flex-col overflow-hidden relative font-sans bg-transparent">
 
       {/* Canvas Halftone - fixed, detras de todo */}
       <HalftoneWaves />

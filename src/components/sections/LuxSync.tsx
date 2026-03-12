@@ -255,7 +255,7 @@ export default function LuxSync() {
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
 
       {/* VENTANA MAESTRA — Glassmorphism naranja radiactivo */}
-      <div className="max-w-7xl mx-auto w-full border border-mg-orange/40 bg-space-black/40 backdrop-blur-2xl flex flex-col shadow-[0_0_60px_rgba(255,138,0,0.15)]">
+      <div className="max-w-7xl mx-auto w-full border border-mg-orange/40 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_60px_rgba(255,138,0,0.15)]">
 
         {/* ─────────────────────────────────────────────
             MITAD SUPERIOR: Proyector (50vh)
@@ -364,7 +364,7 @@ export default function LuxSync() {
                   key={mod.id}
                   data-id={mod.id}
                   onClick={() => selectModule(mod)}
-                  className={`relative flex flex-col bg-space-black/30 backdrop-blur-xl border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left shadow-lg ${
+                  className={`relative flex flex-col bg-space-black/40 backdrop-blur-sm border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left shadow-lg ${
                     isSelected
                       ? 'border-mg-orange/60 shadow-[0_0_25px_rgba(255,138,0,0.3)] bg-white/10'
                       : 'border-white/10 hover:border-neon-cyan/50 hover:bg-white/10'

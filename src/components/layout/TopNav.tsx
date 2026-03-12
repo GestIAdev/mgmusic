@@ -24,7 +24,7 @@ export default function TopNav({ activeSection, setActiveSection }: TopNavProps)
   };
 
   return (
-    <header className="relative z-50 w-full bg-space-black/40 backdrop-blur-lg border-b border-white/5">
+    <header className="relative z-50 w-full bg-space-black/20 backdrop-blur-md border-b border-white/5">
       {/* Resplandor inferior naranja */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-mg-orange to-transparent opacity-50" />
 
