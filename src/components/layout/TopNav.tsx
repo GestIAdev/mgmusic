@@ -1,40 +1,39 @@
-import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
 interface TopNavProps {
   activeSection: string;
   setActiveSection: (section: string) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+  onNav: (id: string) => void;
 }
 
-export default function TopNav({ activeSection, setActiveSection }: TopNavProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export default function TopNav({
+  activeSection,
+  isMobileMenuOpen,
+  setIsMobileMenuOpen,
+  onNav,
+}: TopNavProps) {
 
-  // Nombres comerciales y limpios
   const navLinks = [
-    { id: 'hero', label: 'Inicio' },
-    { id: 'media', label: 'Galería' },
-    { id: 'team', label: 'El Equipo' },
+    { id: 'hero',    label: 'Inicio'     },
+    { id: 'media',   label: 'Galería'    },
+    { id: 'team',    label: 'El Equipo'  },
     { id: 'luxsync', label: 'LuxSync IA' },
-    { id: 'events', label: 'Eventos' },
+    { id: 'events',  label: 'Eventos'    },
   ];
 
-  const handleNav = (id: string) => {
-    setActiveSection(id);
-    setIsMobileMenuOpen(false);
-  };
-
   return (
-    <header className="relative z-50 w-full bg-space-black/20 backdrop-blur-md border-b border-white/5">
+    <header className="relative w-full bg-black/10 backdrop-blur-sm border-b border-white/5">
       {/* Resplandor inferior naranja */}
       <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-mg-orange to-transparent opacity-50" />
 
-      {/* Contenedor relativo para poder centrar el nav de forma absoluta */}
       <div className="flex items-center justify-between px-4 py-4 md:px-8 relative">
-        
-        {/* LOGO (Izquierda) */}
-        <div 
-          className="flex items-center gap-2 cursor-pointer z-10 group"
-          onClick={() => handleNav('hero')}
+
+        {/* LOGO */}
+        <div
+          className="flex items-center gap-2 cursor-pointer group"
+          onClick={() => onNav('hero')}
         >
           <span className="font-display font-bold text-2xl text-mg-orange text-glow-orange tracking-widest">
             MG
@@ -44,12 +43,12 @@ export default function TopNav({ activeSection, setActiveSection }: TopNavProps)
           </span>
         </div>
 
-        {/* NAVEGACIÓN DESKTOP (Centrada perfectamente) */}
+        {/* NAVEGACIÓN DESKTOP (Centrada) */}
         <nav className="hidden md:flex gap-8 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <button
               key={link.id}
-              onClick={() => handleNav(link.id)}
+              onClick={() => onNav(link.id)}
               className={`font-display text-sm tracking-wider transition-all duration-300 uppercase ${
                 activeSection === link.id
                   ? 'text-mg-orange text-glow-orange scale-105'
@@ -61,33 +60,27 @@ export default function TopNav({ activeSection, setActiveSection }: TopNavProps)
           ))}
         </nav>
 
-        {/* BOTÓN MENÚ MÓVIL (Derecha) */}
-        <button 
-          className="md:hidden z-10 text-mg-orange hover:text-mg-orange-glow transition-colors"
+        {/* BOTÓN CONTACTO (Derecha Desktop) */}
+        <button
+          onClick={() => onNav('contact')}
+          className={`hidden md:block font-display text-xs tracking-widest uppercase px-4 py-1.5 rounded border transition-all duration-300 ${
+            activeSection === 'contact'
+              ? 'bg-mg-orange text-black border-mg-orange shadow-[0_0_20px_rgba(255,138,0,0.5)]'
+              : 'border-mg-orange text-mg-orange hover:bg-mg-orange hover:text-black'
+          }`}
+        >
+          Contacto
+        </button>
+
+        {/* BOTÓN HAMBURGUESA MÓVIL */}
+        <button
+          className="md:hidden text-mg-orange transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Abrir menú"
         >
           {isMobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
         </button>
       </div>
-
-      {/* MENÚ MÓVIL */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-surface-elevated/95 backdrop-blur-lg border-b border-mg-orange/20 flex flex-col items-center py-8 gap-8 md:hidden shadow-[0_10px_30px_rgba(255,138,0,0.1)]">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleNav(link.id)}
-              className={`font-display text-xl tracking-widest uppercase ${
-                activeSection === link.id
-                  ? 'text-mg-orange text-glow-orange'
-                  : 'text-gray-300'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
-      )}
     </header>
   );
 }

@@ -2,7 +2,7 @@ import { Instagram, Youtube } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 w-full bg-space-black/20 backdrop-blur-md border-t border-white/5 px-4 py-3 md:px-8">
+    <footer className="relative z-10 w-full bg-black/10 backdrop-blur-sm border-t border-white/5 px-4 py-3 md:px-8">
       <div className="flex items-center justify-between">
 
         {/* Izquierda — Copyright */}

@@ -80,7 +80,7 @@ export default function Gallery() {
 
   return (
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
-      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
+      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-black/10 backdrop-blur-sm flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
 
         {/* PROYECTOR HD */}
         <div className="h-[45vh] w-full shrink-0 bg-black relative border-b border-neon-cyan/30">
@@ -93,10 +93,10 @@ export default function Gallery() {
               <img key={currentItem.id} src={currentItem.src} alt={currentItem.title} className="w-full h-full object-contain" />
             )}
 
-            {/* Botón EXPANDIR — z-30 para estar siempre por encima de las flechas z-20 */}
+            {/* Botón EXPANDIR — z-50 para estar siempre por encima de las flechas z-40 */}
             <button
               onClick={() => setShowModal(true)}
-              className="absolute top-3 right-3 z-30 p-2 bg-space-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-white"
+              className="absolute top-3 right-3 z-50 p-2 bg-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 text-white"
               title="Ver en HD"
               aria-label="Ampliar"
             >
@@ -108,7 +108,7 @@ export default function Gallery() {
           {filtered.length > 1 && (
             <button
               onClick={handlePrev}
-              className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
               aria-label="Anterior"
             >
               <ChevronLeft size={28} />
@@ -119,7 +119,7 @@ export default function Gallery() {
           {filtered.length > 1 && (
             <button
               onClick={handleNext}
-              className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
               aria-label="Siguiente"
             >
               <ChevronRight size={28} />
@@ -128,15 +128,15 @@ export default function Gallery() {
 
           {/* HUD  contador + titulo */}
           <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2">
-            <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
+            <span className="font-display text-[10px] tracking-widest text-mg-orange bg-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
               {currentItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
             </span>
             {filtered.length > 1 && (
-              <span className="font-display text-[10px] tracking-widest text-neon-cyan/70 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm">
+              <span className="font-display text-[10px] tracking-widest text-neon-cyan/70 bg-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm">
                 {Math.max(activeIdx, 0) + 1} / {filtered.length}
               </span>
             )}
-            <span className="hidden sm:block font-sans text-xs text-white/80 bg-space-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-40">
+            <span className="hidden sm:block font-sans text-xs text-white/80 bg-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-40">
               {currentItem.title}
             </span>
           </div>
@@ -201,11 +201,11 @@ export default function Gallery() {
                     >
                       <img src={item.thumb} alt={item.title} className="w-full h-full object-cover" />
                       {item.type === 'video' && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-space-black/40">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                           <Film size={12} className="text-mg-orange/80" />
                         </div>
                       )}
-                      <div className="absolute bottom-0 inset-x-0 bg-linear-to-t from-space-black/90 to-transparent p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black/90 to-transparent p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <p className="text-[8px] md:text-[9px] text-white/80 font-sans truncate">{item.title}</p>
                       </div>
                     </button>
@@ -220,7 +220,7 @@ export default function Gallery() {
       {/* MODAL HD — usa currentItem para consistencia con filtros */}
       {showModal && (
         <div
-          className="fixed inset-0 z-100 bg-space-black/95 backdrop-blur-2xl flex items-center justify-center cursor-zoom-out"
+          className="fixed inset-0 z-100 bg-black/95 backdrop-blur-2xl flex items-center justify-center cursor-zoom-out"
           onClick={() => setShowModal(false)}
         >
           {/* Evitar que click en el contenido cierre el modal */}
@@ -237,10 +237,10 @@ export default function Gallery() {
               <img key={`modal-${currentItem.id}`} src={currentItem.src} alt={currentItem.title} className="max-h-[90vh] max-w-[95vw] object-contain shadow-[0_0_100px_rgba(0,240,255,0.1)]" />
             )}
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-3">
-              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-3 py-1 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
+              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-black/80 px-3 py-1 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
                 {currentItem.type === 'video' ? 'REC // VIDEO' : 'REC // FOTO'}
               </span>
-              <span className="font-sans text-sm text-white/80 bg-space-black/60 px-3 py-1 rounded-sm backdrop-blur-sm">
+              <span className="font-sans text-sm text-white/80 bg-black/60 px-3 py-1 rounded-sm backdrop-blur-sm">
                 {currentItem.title}
               </span>
             </div>

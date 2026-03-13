@@ -10,6 +10,7 @@ import kineticMd from '../../../docs/KINETIC-CHROMATIC-SALES.md?raw';
 import hephaestusMd from '../../../docs/HEPHAESTUS-ENGINE-SALES.md?raw';
 import hyperionMd from '../../../docs/HYPERION-PROGRAMMER-SALES.md?raw';
 import preshowMd from '../../../docs/PRE-SHOW-WORKSPACE-SALES.md?raw';
+import philosophyMd from '../../../docs/PHILOSOPHY-SALES.md?raw';
 
 /* ═══════════════════════════════════════════════════════════════
    INTERFACES  (CMS-ready, flat, typed)
@@ -103,6 +104,13 @@ const LUXSYNC_DATA: LuxModule[] = [
       { id: 'm13', type: 'video' as const, url: '/src/assets/demo-preshow-workspace.mp4' },
       { id: 'm14', type: 'image' as const, url: '/src/assets/app-preshow-tools.jpg' }
     ]
+  },
+  {
+    id: 'lx-008', role: 'MANIFIESTO GESTIADEV', title: 'NUESTRA FILOSOFÍA DE CÓDIGO',
+    shortDescription: 'Cero dependencias de terceros. UI Cyberpunk. Sin hardware propietario. El control DMX de élite democratizado.',
+    fullReport: philosophyMd,
+    coverImage: '/src/assets/evento-main.jpeg',
+    gallery: [{ id: 'm15', type: 'image' as const, url: '/src/assets/evento-main.jpeg' }]
   }
 ];
 
@@ -113,22 +121,23 @@ export default function LuxSync() {
   const [activeModule, setActiveModule] = useState<LuxModule>(LUXSYNC_DATA[0]);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const textVisorRef = useRef<HTMLDivElement>(null);
+  const proyectorRef = useRef<HTMLDivElement>(null);
 
   /* ── Seleccionar módulo: resetea índice de carrusel y scroll del texto ── */
   const selectModule = (mod: LuxModule) => {
     setActiveModule(mod);
+    setIsTextExpanded(false);
     setCurrentMediaIndex(0);
     // Scroll del visor de texto al tope
     if (textVisorRef.current) {
       textVisorRef.current.scrollTop = 0;
     }
+    // Scroll hacia ARRIBA al proyector (fix móvil)
     setTimeout(() => {
-      const el = gridRef.current?.querySelector(
-        `[data-id="${mod.id}"]`
-      ) as HTMLElement | null;
-      el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      proyectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
   };
 
@@ -151,12 +160,12 @@ export default function LuxSync() {
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
 
       {/* VENTANA MAESTRA — Glassmorphism naranja radiactivo */}
-      <div className="max-w-7xl mx-auto w-full border border-mg-orange/40 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_60px_rgba(255,138,0,0.15)]">
+      <div className="max-w-7xl mx-auto w-full border border-mg-orange/40 bg-black/10 backdrop-blur-sm flex flex-col shadow-[0_0_60px_rgba(255,138,0,0.15)]">
 
         {/* ─────────────────────────────────────────────
             MITAD SUPERIOR: Proyector (50vh)
         ───────────────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row w-full md:h-[50vh] border-b border-mg-orange/30">
+        <div ref={proyectorRef} className="flex flex-col md:flex-row w-full md:h-[50vh] border-b border-mg-orange/30">
 
           {/* A) VISOR HD — 40% con acentos naranja */}
           <div className="w-full md:w-[40%] h-[30vh] md:h-full bg-black relative shrink-0">
@@ -178,11 +187,11 @@ export default function LuxSync() {
                 />
               )}
 
-              {/* Botón Maximizar — z-30 para estar por encima de las flechas z-20 */}
+              {/* Botón Maximizar — z-50 para estar por encima de las flechas z-40 */}
               {currentAsset.type === 'image' && (
                 <button
                   onClick={() => setIsFullscreen(true)}
-                  className="absolute top-3 right-3 z-30 p-2 bg-space-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 text-white"
+                  className="absolute top-3 right-3 z-50 p-2 bg-black/60 hover:bg-mg-orange border border-white/10 rounded backdrop-blur-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 text-white"
                   aria-label="Ampliar imagen"
                   title="Ver en pantalla completa"
                 >
@@ -195,7 +204,7 @@ export default function LuxSync() {
             {galleryLen > 1 && (
               <button
                 onClick={handlePrevMedia}
-                className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media anterior"
               >
                 <ChevronLeft size={28} />
@@ -206,7 +215,7 @@ export default function LuxSync() {
             {galleryLen > 1 && (
               <button
                 onClick={handleNextMedia}
-                className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media siguiente"
               >
                 <ChevronRight size={28} />
@@ -215,11 +224,11 @@ export default function LuxSync() {
 
             {/* HUD inferior */}
             <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2 flex-wrap">
-              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/40 rounded-sm backdrop-blur-sm">
+              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-black/80 px-2 py-0.5 border border-mg-orange/40 rounded-sm backdrop-blur-sm">
                 {activeModule.role}
               </span>
               {galleryLen > 1 && (
-                <span className="font-display text-[10px] tracking-widest text-mg-orange/80 bg-space-black/70 px-2 py-0.5 border border-mg-orange/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
+                <span className="font-display text-[10px] tracking-widest text-mg-orange/80 bg-black/70 px-2 py-0.5 border border-mg-orange/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
                   <Images size={10} />
                   {currentMediaIndex + 1} / {galleryLen}
                 </span>
@@ -230,8 +239,34 @@ export default function LuxSync() {
           {/* B) VISOR DE TEXTO — 60%, scrollable sin scrollbar */}
           <div
             ref={textVisorRef}
-            className="w-full md:w-[60%] p-6 md:p-8 flex flex-col border-t md:border-t-0 md:border-l border-mg-orange/30 bg-white/5 backdrop-blur-md overflow-y-auto scrollbar-hide"
+            className="w-full md:w-[60%] p-6 md:p-8 flex flex-col border-t md:border-t-0 md:border-l border-mg-orange/30 bg-white/5 backdrop-blur-md md:overflow-y-auto scrollbar-hide"
           >
+            {/* ── Selector táctil móvil: menú horizontal deslizante ── */}
+            <div className="flex md:hidden overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-2 mb-4 pb-2 border-b border-white/10 w-full">
+              {LUXSYNC_DATA.map((item) => {
+                const isSelected = item.id === activeModule.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveModule(item);
+                      setCurrentMediaIndex(0);
+                      setIsTextExpanded(false);
+                      if (textVisorRef.current) textVisorRef.current.scrollTop = 0;
+                    }}
+                    className={`shrink-0 snap-start px-4 py-2 rounded-full border text-[10px] font-display uppercase whitespace-nowrap transition-all ${
+                      isSelected
+                        ? 'border-mg-orange text-mg-orange bg-mg-orange/10'
+                        : 'border-white/20 text-white/60 hover:border-white/40'
+                    }`}
+                  >
+                    {item.title}
+                  </button>
+                );
+              })}
+            </div>
+
             <span className="font-display text-xs md:text-sm tracking-[0.3em] text-mg-orange uppercase mb-4 shrink-0">
               {activeModule.role}
             </span>
@@ -241,12 +276,20 @@ export default function LuxSync() {
               {activeModule.title}
             </h2>
 
-            <div className="prose prose-invert prose-orange max-w-none prose-headings:text-neon-cyan prose-h1:text-2xl prose-h2:text-xl prose-p:text-white/80 prose-p:leading-relaxed prose-a:text-mg-orange prose-strong:text-mg-orange">
+            <div className={`prose prose-invert prose-orange max-w-none prose-headings:text-neon-cyan prose-h1:text-2xl prose-h2:text-xl prose-p:text-white/80 prose-p:leading-relaxed prose-a:text-mg-orange prose-strong:text-mg-orange ${isTextExpanded ? 'line-clamp-none pb-2' : 'line-clamp-5 md:line-clamp-none'}`}>
               <ReactMarkdown>{activeModule.fullReport}</ReactMarkdown>
             </div>
 
-            {/* Dot indicators de módulo */}
-            <div className="flex items-center gap-1.5 mt-6 shrink-0 flex-wrap">
+            {/* Botón Leer más — solo en móvil */}
+            <button
+              onClick={() => setIsTextExpanded(!isTextExpanded)}
+              className="md:hidden text-mg-orange font-display text-[10px] tracking-widest uppercase mt-2 mb-4 hover:text-white transition-colors text-left"
+            >
+              {isTextExpanded ? '[- Ver menos]' : '[+ Leer más]'}
+            </button>
+
+            {/* Dot indicators — ocultos en móvil (ya tenemos el menú deslizante) */}
+            <div className="hidden md:flex items-center gap-1.5 mt-6 shrink-0 flex-wrap">
               {LUXSYNC_DATA.map((m) => (
                 <button
                   key={m.id}
@@ -275,7 +318,7 @@ export default function LuxSync() {
                   key={mod.id}
                   data-id={mod.id}
                   onClick={() => selectModule(mod)}
-                  className={`relative flex flex-col bg-space-black/40 backdrop-blur-sm border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left shadow-lg ${
+                  className={`relative flex flex-col bg-white/5 backdrop-blur-md border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left shadow-lg ${
                     isSelected
                       ? 'border-mg-orange/60 shadow-[0_0_25px_rgba(255,138,0,0.3)] bg-white/10'
                       : 'border-white/10 hover:border-neon-cyan/50 hover:bg-white/10'
@@ -292,7 +335,7 @@ export default function LuxSync() {
                           : 'brightness-50 group-hover:brightness-70'
                       }`}
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-space-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 
                     {/* Indicador de selección */}
                     {isSelected && (
@@ -330,7 +373,7 @@ export default function LuxSync() {
       {/* MODAL LIGHTBOX — pantalla completa para imágenes */}
       {isFullscreen && currentAsset.type === 'image' && (
         <div
-          className="fixed inset-0 z-100 bg-space-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+          className="fixed inset-0 z-100 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
           onClick={() => setIsFullscreen(false)}
         >
           <img

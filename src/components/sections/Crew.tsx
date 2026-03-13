@@ -94,17 +94,18 @@ const CREW_DATA: CrewMember[] = [
 export default function Crew() {
   const [activeMember, setActiveMember] = useState<CrewMember>(CREW_DATA[0]);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [isTextExpanded, setIsTextExpanded] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
+  const proyectorRef = useRef<HTMLDivElement>(null);
 
   /* ── Seleccionar miembro: resetea indice de carrusel ── */
   const selectMember = (member: CrewMember) => {
     setActiveMember(member);
     setCurrentMediaIndex(0);
+    setIsTextExpanded(false);
+    // Scroll hacia ARRIBA al proyector (fix móvil)
     setTimeout(() => {
-      const el = gridRef.current?.querySelector(
-        `[data-id="${member.id}"]`
-      ) as HTMLElement | null;
-      el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      proyectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
   };
 
@@ -126,11 +127,11 @@ export default function Crew() {
   return (
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
       {/* VENTANA MAESTRA — Glassmorphism */}
-      <div className="max-w-6xl mx-auto w-full border border-neon-cyan/30 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.05)]">
+      <div className="max-w-6xl mx-auto w-full border border-neon-cyan/30 bg-black/10 backdrop-blur-sm flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.05)]">
         {/* ─────────────────────────────────────────────
             MITAD SUPERIOR: Proyector de Perfil (45vh)
         ───────────────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row w-full md:h-[45vh] border-b border-neon-cyan/30">
+        <div ref={proyectorRef} className="flex flex-col md:flex-row w-full md:h-[45vh] border-b border-neon-cyan/30">
           {/* A) VISOR HD — 50% */}
           <div className="w-full md:w-1/2 h-[30vh] md:h-full bg-black relative shrink-0">
             {/* Reproductor */}
@@ -154,7 +155,7 @@ export default function Crew() {
             {galleryLen > 1 && (
               <button
                 onClick={handlePrevMedia}
-                className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media anterior"
               >
                 <ChevronLeft size={28} />
@@ -165,7 +166,7 @@ export default function Crew() {
             {galleryLen > 1 && (
               <button
                 onClick={handleNextMedia}
-                className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media siguiente"
               >
                 <ChevronRight size={28} />
@@ -174,11 +175,11 @@ export default function Crew() {
 
             {/* HUD inferior */}
             <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2 flex-wrap">
-              <span className="font-display text-[10px] tracking-widest text-neon-cyan bg-space-black/80 px-2 py-0.5 border border-neon-cyan/30 rounded-sm backdrop-blur-sm">
+              <span className="font-display text-[10px] tracking-widest text-neon-cyan bg-black/80 px-2 py-0.5 border border-neon-cyan/30 rounded-sm backdrop-blur-sm">
                 {activeMember.role}
               </span>
               {galleryLen > 1 && (
-                <span className="font-display text-[10px] tracking-widest text-neon-cyan/80 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
+                <span className="font-display text-[10px] tracking-widest text-neon-cyan/80 bg-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
                   <Images size={10} />
                   {currentMediaIndex + 1} / {galleryLen}
                 </span>
@@ -188,6 +189,32 @@ export default function Crew() {
 
           {/* B) PANEL DE DATOS — 50% Glassmorphism */}
           <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center border-t md:border-t-0 md:border-l border-neon-cyan/30 bg-white/5 backdrop-blur-md">
+
+            {/* ── Selector táctil móvil: menú horizontal deslizante ── */}
+            <div className="flex md:hidden overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-2 mb-4 pb-2 border-b border-white/10 w-full">
+              {CREW_DATA.map((item) => {
+                const isSelected = item.id === activeMember.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveMember(item);
+                      setCurrentMediaIndex(0);
+                      setIsTextExpanded(false);
+                    }}
+                    className={`shrink-0 snap-start px-4 py-2 rounded-full border text-[10px] font-display uppercase whitespace-nowrap transition-all ${
+                      isSelected
+                        ? 'border-mg-orange text-mg-orange bg-mg-orange/10'
+                        : 'border-white/20 text-white/60 hover:border-white/40'
+                    }`}
+                  >
+                    {item.title}
+                  </button>
+                );
+              })}
+            </div>
+
             <span className="font-display text-xs md:text-sm lg:text-base tracking-[0.3em] text-neon-cyan uppercase mb-3">
               {activeMember.role}
             </span>
@@ -196,12 +223,20 @@ export default function Crew() {
               {activeMember.title}
             </h2>
 
-            <p className="font-sans text-sm md:text-base lg:text-lg text-white/60 leading-relaxed mb-6">
+            <p className={`font-sans text-sm md:text-base lg:text-lg text-white/60 leading-relaxed mb-2 ${isTextExpanded ? 'line-clamp-none pb-2' : 'line-clamp-5 md:line-clamp-none'}`}>
               {activeMember.description}
             </p>
 
-            {/* Mini indicador de posicion en el equipo */}
-            <div className="flex items-center gap-1.5 mt-auto">
+            {/* Botón Leer más — solo en móvil */}
+            <button
+              onClick={() => setIsTextExpanded(!isTextExpanded)}
+              className="md:hidden text-mg-orange font-display text-[10px] tracking-widest uppercase mt-2 mb-4 hover:text-white transition-colors text-left"
+            >
+              {isTextExpanded ? '[- Ver menos]' : '[+ Leer más]'}
+            </button>
+
+            {/* Dots — ocultos en móvil (ya tenemos el menú deslizante) */}
+            <div className="hidden md:flex items-center gap-1.5 mt-auto">
               {CREW_DATA.map((m) => (
                 <button
                   key={m.id}
@@ -230,7 +265,7 @@ export default function Crew() {
                   key={member.id}
                   data-id={member.id}
                   onClick={() => selectMember(member)}
-                  className={`relative flex flex-col bg-space-black/40 backdrop-blur-sm border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left ${
+                  className={`relative flex flex-col bg-white/5 backdrop-blur-md border rounded-lg overflow-hidden cursor-pointer group transition-all duration-300 text-left ${
                     isSelected
                       ? 'border-mg-orange/60 shadow-[0_0_25px_rgba(255,138,0,0.3)] bg-white/10'
                       : 'border-white/10 hover:border-mg-orange/50 hover:bg-white/10'
@@ -247,11 +282,11 @@ export default function Crew() {
                           : 'brightness-50 group-hover:brightness-70'
                       }`}
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-space-black/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 
                     {/* Badge album count */}
                     {member.gallery.length > 1 && (
-                      <div className="absolute top-2 right-2 flex items-center gap-0.5 bg-space-black/70 border border-neon-cyan/20 rounded-sm px-1.5 py-0.5 backdrop-blur-sm">
+                      <div className="absolute top-2 right-2 flex items-center gap-0.5 bg-black/70 border border-neon-cyan/20 rounded-sm px-1.5 py-0.5 backdrop-blur-sm">
                         <Images size={8} className="text-neon-cyan/60" />
                         <span className="font-display text-[8px] text-neon-cyan/60">
                           {member.gallery.length}

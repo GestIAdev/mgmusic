@@ -162,7 +162,9 @@ export default function Events() {
   const [activeTab, setActiveTab]                 = useState<'upcoming' | 'past'>('upcoming');
   const [calYear, setCalYear]                     = useState(today.getFullYear());
   const [calMonth, setCalMonth]                   = useState(today.getMonth());
+  const [isTextExpanded, setIsTextExpanded]       = useState(false);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const proyectorRef = useRef<HTMLDivElement>(null);
 
   /*  Helpers de calendario  */
   const eventDates = useMemo(
@@ -196,9 +198,10 @@ export default function Events() {
     setActiveEvent(ev);
     setCurrentMediaIndex(0);
     setActiveTab(ev.status);
+    setIsTextExpanded(false);
+    // Scroll hacia ARRIBA al proyector (fix móvil)
     setTimeout(() => {
-      const el = cardsRef.current?.querySelector(`[data-id="${ev.id}"]`) as HTMLElement | null;
-      el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      proyectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
   };
 
@@ -227,10 +230,10 @@ export default function Events() {
     <div className="w-full h-full flex items-start justify-center p-3 md:p-5 pb-20 overflow-y-auto scrollbar-hide">
 
       {/* VENTANA MAESTRA */}
-      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-space-black/20 backdrop-blur-lg flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
+      <div className="max-w-6xl w-full border border-neon-cyan/30 bg-black/10 backdrop-blur-sm flex flex-col shadow-[0_0_30px_rgba(0,240,255,0.05)]">
 
         {/* FILA SUPERIOR: Proyector Album (65%) + Panel Datos (35%) */}
-        <div className="flex flex-col md:flex-row w-full md:h-[45vh] border-b border-neon-cyan/30">
+        <div ref={proyectorRef} className="flex flex-col md:flex-row w-full md:h-[45vh] border-b border-neon-cyan/30">
 
           {/* A) PROYECTOR DE ALBUM */}
           <div className="w-full md:w-[65%] h-[30vh] md:h-full bg-black relative shrink-0">
@@ -256,7 +259,7 @@ export default function Events() {
             {galleryLen > 1 && (
               <button
                 onClick={handlePrevMedia}
-                className="absolute left-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media anterior"
               >
                 <ChevronLeft size={28} />
@@ -267,7 +270,7 @@ export default function Events() {
             {galleryLen > 1 && (
               <button
                 onClick={handleNextMedia}
-                className="absolute right-0 inset-y-0 z-20 flex items-center justify-center w-12 bg-space-black/50 hover:bg-mg-orange/80 text-white/70 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-2 rounded-full bg-black/50 hover:bg-mg-orange/90 text-white backdrop-blur-md transition-all shadow-lg flex items-center justify-center"
                 aria-label="Media siguiente"
               >
                 <ChevronRight size={28} />
@@ -276,16 +279,16 @@ export default function Events() {
 
             {/* HUD inferior: estado + contador album + titulo */}
             <div className="absolute bottom-2 left-2 z-10 flex items-center gap-2 flex-wrap">
-              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-space-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
+              <span className="font-display text-[10px] tracking-widest text-mg-orange bg-black/80 px-2 py-0.5 border border-mg-orange/30 rounded-sm backdrop-blur-sm">
                 {activeEvent.status === 'upcoming' ? 'PROXIMO' : 'ARCHIVO'}
               </span>
               {galleryLen > 1 && (
-                <span className="font-display text-[10px] tracking-widest text-neon-cyan/80 bg-space-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
+                <span className="font-display text-[10px] tracking-widest text-neon-cyan/80 bg-black/70 px-2 py-0.5 border border-neon-cyan/20 rounded-sm backdrop-blur-sm flex items-center gap-1">
                   <Images size={10} />
                   {currentMediaIndex + 1} / {galleryLen}
                 </span>
               )}
-              <span className="hidden sm:block font-sans text-xs text-white/70 bg-space-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-48">
+              <span className="hidden sm:block font-sans text-xs text-white/70 bg-black/60 px-2 py-0.5 rounded-sm backdrop-blur-sm truncate max-w-48">
                 {activeEvent.title}
               </span>
             </div>
@@ -293,6 +296,32 @@ export default function Events() {
 
           {/* B) PANEL DE DATOS */}
           <div className="w-full md:w-[35%] p-6 md:p-8 flex flex-col justify-center border-t md:border-t-0 md:border-l border-neon-cyan/30 bg-surface-elevated/50">
+
+            {/* ── Selector táctil móvil: menú horizontal deslizante ── */}
+            <div className="flex md:hidden overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-2 mb-4 pb-2 border-b border-white/10 w-full">
+              {EVENTS_DATA.map((item) => {
+                const isSelected = item.id === activeEvent.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveEvent(item);
+                      setCurrentMediaIndex(0);
+                      setActiveTab(item.status);
+                      setIsTextExpanded(false);
+                    }}
+                    className={`shrink-0 snap-start px-4 py-2 rounded-full border text-[10px] font-display uppercase whitespace-nowrap transition-all ${
+                      isSelected
+                        ? 'border-mg-orange text-mg-orange bg-mg-orange/10'
+                        : 'border-white/20 text-white/60 hover:border-white/40'
+                    }`}
+                  >
+                    {item.title}
+                  </button>
+                );
+              })}
+            </div>
 
             <div className="flex flex-wrap gap-1.5 mb-4">
               {activeEvent.tags.map((tag) => (
@@ -306,9 +335,17 @@ export default function Events() {
               {activeEvent.title}
             </h2>
 
-            <p className="font-sans text-sm md:text-base lg:text-lg text-white/60 mb-5 leading-relaxed">
+            <p className={`font-sans text-sm md:text-base lg:text-lg text-white/60 mb-2 leading-relaxed ${isTextExpanded ? 'line-clamp-none pb-2' : 'line-clamp-5 md:line-clamp-none'}`}>
               {activeEvent.description}
             </p>
+
+            {/* Botón Leer más — solo en móvil */}
+            <button
+              onClick={() => setIsTextExpanded(!isTextExpanded)}
+              className="md:hidden text-mg-orange font-display text-[10px] tracking-widest uppercase mt-2 mb-4 hover:text-white transition-colors text-left"
+            >
+              {isTextExpanded ? '[- Ver menos]' : '[+ Leer más]'}
+            </button>
 
             <div className="flex flex-col gap-2 mb-6">
               <div className="flex items-center gap-2 text-neon-cyan/80">
@@ -448,11 +485,11 @@ export default function Events() {
                           alt={ev.title}
                           className="absolute inset-0 w-full h-full object-cover brightness-50 group-hover:brightness-60 transition-all duration-300"
                         />
-                        <div className="absolute inset-0 bg-linear-to-t from-space-black/90 via-space-black/30 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
 
                         {/* Badge cantidad de assets en el album */}
                         {ev.gallery.length > 1 && (
-                          <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-space-black/70 border border-neon-cyan/20 rounded-sm px-1.5 py-0.5 backdrop-blur-sm">
+                          <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-black/70 border border-neon-cyan/20 rounded-sm px-1.5 py-0.5 backdrop-blur-sm">
                             <Images size={8} className="text-neon-cyan/60" />
                             <span className="font-display text-[8px] text-neon-cyan/60">{ev.gallery.length}</span>
                           </div>
