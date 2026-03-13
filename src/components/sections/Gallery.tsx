@@ -18,12 +18,12 @@ const TABS = [
 const CATEGORIES = ['TODOS', 'CLUBS', 'FESTIVALES', 'BACKSTAGE'] as const;
 
 const DEMO_MEDIA: MediaItem[] = [
-  { id: 1, type: 'photo', src: '/src/assets/evento-main.jpeg', thumb: '/src/assets/evento-main.jpeg', title: 'Evento Neon 2025',  category: 'CLUBS' },
-  { id: 2, type: 'photo', src: '/src/assets/logo-mg.png',      thumb: '/src/assets/logo-mg.png',      title: 'Logo MG Oficial',  category: 'BACKSTAGE' },
-  { id: 3, type: 'photo', src: '/src/assets/logo2.png',        thumb: '/src/assets/logo2.png',        title: 'Branding Alt',     category: 'BACKSTAGE' },
-  { id: 4, type: 'photo', src: '/src/assets/logo3.png',        thumb: '/src/assets/logo3.png',        title: 'Branding Glow',    category: 'FESTIVALES' },
-  { id: 5, type: 'photo', src: '/src/assets/logo4.png',        thumb: '/src/assets/logo4.png',        title: 'Branding Dark',    category: 'FESTIVALES' },
-  { id: 6, type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', thumb: '/src/assets/evento-main.jpeg', title: 'Demo Reel MG', category: 'CLUBS' },
+  { id: 1, type: 'photo', src: '/media/evento-main.jpeg', thumb: '/media/evento-main.jpeg', title: 'Evento Neon 2025',  category: 'CLUBS' },
+  { id: 2, type: 'photo', src: '/media/logo-mg.png',      thumb: '/media/logo-mg.png',      title: 'Logo MG Oficial',  category: 'BACKSTAGE' },
+  { id: 3, type: 'photo', src: '/media/logo2.png',        thumb: '/media/logo2.png',        title: 'Branding Alt',     category: 'BACKSTAGE' },
+  { id: 4, type: 'photo', src: '/media/logo3.png',        thumb: '/media/logo3.png',        title: 'Branding Glow',    category: 'FESTIVALES' },
+  { id: 5, type: 'photo', src: '/media/logo4.png',        thumb: '/media/logo4.png',        title: 'Branding Dark',    category: 'FESTIVALES' },
+  { id: 6, type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', thumb: '/media/evento-main.jpeg', title: 'Demo Reel MG', category: 'CLUBS' },
 ];
 
 export default function Gallery() {

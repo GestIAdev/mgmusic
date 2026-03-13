@@ -39,78 +39,78 @@ const LUXSYNC_DATA: LuxModule[] = [
     id: 'lx-001', role: 'CAPA SENSORIAL', title: 'EL OÍDO QUE TU SHOW NECESITABA',
     shortDescription: 'Las luces que escuchan de verdad. Entiende notas, secciones, drops y progresiones armónicas con 4s de antelación.',
     fullReport: sensoryMd,
-    coverImage: '/src/assets/app-sensory-thumb.jpg', 
+    coverImage: '/media/luxsync/app-sensory-thumb.jpg', 
     gallery: [
-      { id: 'm1', type: 'video' as const, url: '/src/assets/demo-sensory.mp4' },
-      { id: 'm2', type: 'image' as const, url: '/src/assets/luxsync/neuralcommand1.png' }
+      { id: 'm1', type: 'video' as const, url: '/media/luxsync/demo-sensory.mp4' },
+      { id: 'm2', type: 'image' as const, url: '/media/luxsync/neuralcommand1.png' }
     ]
   },
   {
     id: 'lx-002', role: 'MOTOR COGNITIVO', title: 'LA IA QUE PINTA CON LUZ',
     shortDescription: 'Un cerebro de 15 especialistas tomando decisiones cada 16ms. Selene entiende la música y decide si disparar o guardar silencio.',
     fullReport: seleneMd,
-    coverImage: '/src/assets/app-selene-thumb.jpg', 
+    coverImage: '/media/luxsync/app-selene-thumb.jpg', 
     gallery: [
-      { id: 'm3', type: 'video' as const, url: '/src/assets/demo-selene-effects.mp4' },
-      { id: 'm4', type: 'image' as const, url: '/src/assets/app-selene-ui.jpg' }
+      { id: 'm3', type: 'video' as const, url: '/media/luxsync/demo-selene-effects.mp4' },
+      { id: 'm4', type: 'image' as const, url: '/media/luxsync/app-selene-ui.jpg' }
     ]
   },
   {
     id: 'lx-003', role: 'MOTOR DE SINCRONIZACIÓN', title: 'CHRONOS TIMECODER',
     shortDescription: 'El timeline que sugiere, no dicta. Sincronización fotograma a fotograma sin necesidad de consolas de 70.000€.',
     fullReport: chronosMd,
-    coverImage: '/src/assets/app-chronos-thumb.jpg', 
+    coverImage: '/media/luxsync/app-chronos-thumb.jpg', 
     gallery: [
-      { id: 'm5', type: 'video' as const, url: '/src/assets/demo-chronos-timeline.mp4' },
-      { id: 'm6', type: 'image' as const, url: '/src/assets/app-chronos-timeline.jpg' }
+      { id: 'm5', type: 'video' as const, url: '/media/luxsync/demo-chronos-timeline.mp4' },
+      { id: 'm6', type: 'image' as const, url: '/media/luxsync/app-chronos-timeline.jpg' }
     ]
   },
   {
     id: 'lx-004', role: 'FÍSICA & COLORIMETRÍA', title: 'KINETIC-CHROMATIC CORE',
     shortDescription: 'El software que convierte un mover chino de 50€ en hardware profesional con Motor Bodyguard integrado.',
     fullReport: kineticMd,
-    coverImage: '/src/assets/app-kinetic-thumb.jpg', 
+    coverImage: '/media/luxsync/app-kinetic-thumb.jpg', 
     gallery: [
-      { id: 'm7', type: 'video' as const, url: '/src/assets/demo-kinetic-colors.mp4' },
-      { id: 'm8', type: 'image' as const, url: '/src/assets/app-kinetic-control.jpg' }
+      { id: 'm7', type: 'video' as const, url: '/media/luxsync/demo-kinetic-colors.mp4' },
+      { id: 'm8', type: 'image' as const, url: '/media/luxsync/app-kinetic-control.jpg' }
     ]
   },
   {
     id: 'lx-005', role: 'EDITOR PARAMÉTRICO', title: 'HEPHAESTUS ENGINE',
     shortDescription: 'Newton y Bézier en la misma forja. Editor de curvas matemáticas conectadas directamente al DMX y reactivas al audio.',
     fullReport: hephaestusMd,
-    coverImage: '/src/assets/app-hephaestus-thumb.jpg', 
+    coverImage: '/media/luxsync/app-hephaestus-thumb.jpg', 
     gallery: [
-      { id: 'm9', type: 'video' as const, url: '/src/assets/demo-hephaestus-editor.mp4' },
-      { id: 'm10', type: 'image' as const, url: '/src/assets/app-hephaestus-curves.jpg' }
+      { id: 'm9', type: 'video' as const, url: '/media/luxsync/demo-hephaestus-editor.mp4' },
+      { id: 'm10', type: 'image' as const, url: '/media/luxsync/app-hephaestus-curves.jpg' }
     ]
   },
   {
     id: 'lx-006', role: 'CONTROL EN DIRECTO', title: 'HYPERION & THEPROGRAMMER',
     shortDescription: 'LiveStage 3D inmersivo a 60fps. Tú tomas el mando absoluto cuando quieres, y Selene retoma suavemente cuando sueltas.',
     fullReport: hyperionMd,
-    coverImage: '/src/assets/app-hyperion-thumb.jpg', 
+    coverImage: '/media/luxsync/app-hyperion-thumb.jpg', 
     gallery: [
-      { id: 'm11', type: 'video' as const, url: '/src/assets/demo-hyperion-3d.mp4' },
-      { id: 'm12', type: 'image' as const, url: '/src/assets/app-hyperion-interface.jpg' }
+      { id: 'm11', type: 'video' as const, url: '/media/luxsync/demo-hyperion-3d.mp4' },
+      { id: 'm12', type: 'image' as const, url: '/media/luxsync/app-hyperion-interface.jpg' }
     ]
   },
   {
     id: 'lx-007', role: 'FLUJO EN FRÍO', title: 'PRE-SHOW WORKSPACE',
     shortDescription: 'DMX Nexus, ForgeView, WheelSmith y CalibrationLab. El trabajo invisible que hace posible el show visible.',
     fullReport: preshowMd,
-    coverImage: '/src/assets/app-preshow-thumb.jpg', 
+    coverImage: '/media/luxsync/app-preshow-thumb.jpg', 
     gallery: [
-      { id: 'm13', type: 'video' as const, url: '/src/assets/demo-preshow-workspace.mp4' },
-      { id: 'm14', type: 'image' as const, url: '/src/assets/app-preshow-tools.jpg' }
+      { id: 'm13', type: 'video' as const, url: '/media/luxsync/demo-preshow-workspace.mp4' },
+      { id: 'm14', type: 'image' as const, url: '/media/luxsync/app-preshow-tools.jpg' }
     ]
   },
   {
     id: 'lx-008', role: 'MANIFIESTO GESTIADEV', title: 'NUESTRA FILOSOFÍA DE CÓDIGO',
     shortDescription: 'Cero dependencias de terceros. UI Cyberpunk. Sin hardware propietario. El control DMX de élite democratizado.',
     fullReport: philosophyMd,
-    coverImage: '/src/assets/evento-main.jpeg',
-    gallery: [{ id: 'm15', type: 'image' as const, url: '/src/assets/evento-main.jpeg' }]
+    coverImage: '/media/evento-main.jpeg',
+    gallery: [{ id: 'm15', type: 'image' as const, url: '/media/evento-main.jpeg' }]
   }
 ];
 

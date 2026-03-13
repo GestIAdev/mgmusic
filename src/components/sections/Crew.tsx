@@ -28,10 +28,10 @@ const CREW_DATA: CrewMember[] = [
     role: 'DIRECCIÓN GENERAL',
     title: 'EL SHOWRUNNER',
     description: 'La mente maestra detrás del telón. Coordinación absoluta y gestión de crisis en tiempo real. Si el evento es un éxito sin precedentes y todo fluye con la precisión de un reloj suizo, es porque él está al mando. La cara visible que asegura que tu única preocupación sea disfrutar.',
-    coverImage: '/src/assets/evento-main.jpeg',
+    coverImage: '/media/evento-main.jpeg',
     gallery: [
-      { id: 'sr-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
-      { id: 'sr-2', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'sr-1', type: 'image', url: '/media/evento-main.jpeg' },
+      { id: 'sr-2', type: 'image', url: '/media/Evento18.jpeg' },
     ],
   },
   {
@@ -39,10 +39,10 @@ const CREW_DATA: CrewMember[] = [
     role: 'ESPECIALISTAS EN SONIDO',
     title: 'INGENIERÍA ACÚSTICA',
     description: 'Nuestro seguro de vida a prueba de fallos. Operadores fogueados en el montaje de grandes escenarios, bandas en vivo y festivales itinerantes. Trabajan en las sombras con equipos de ecualización de última generación para garantizar que el pecho te vibre a 120 BPM sin escuchar un solo acople.',
-    coverImage: '/src/assets/Evento18.jpeg',
+    coverImage: '/media/Evento18.jpeg',
     gallery: [
-      { id: 'ia-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'ia-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'ia-1', type: 'image', url: '/media/Evento18.jpeg' },
+      { id: 'ia-2', type: 'image', url: '/media/evento-main.jpeg' },
     ],
   },
   {
@@ -50,9 +50,9 @@ const CREW_DATA: CrewMember[] = [
     role: 'ILUMINACIÓN & VISUALES',
     title: 'ARSENAL LUMÍNICO',
     description: 'Fotones controlados a voluntad. Desplegamos desde iluminación arquitectónica sutil para dar un toque de elegancia pura, hasta fixtures robóticas y láseres de alta intensidad para desatar la locura. Adaptamos el espectro visual exactamente al contexto y la energía que exige la noche.',
-    coverImage: '/src/assets/evento-main.jpeg',
+    coverImage: '/media/evento-main.jpeg',
     gallery: [
-      { id: 'al-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'al-1', type: 'image', url: '/media/evento-main.jpeg' },
     ],
   },
   {
@@ -60,10 +60,10 @@ const CREW_DATA: CrewMember[] = [
     role: 'DJS & SELECCIÓN MUSICAL',
     title: 'VANGUARDIA SONORA',
     description: 'Lectores de pistas implacables. No solo reproducen música, controlan la psicología de la sala. Con un repertorio inagotable y una técnica de mezcla impecable, saben exactamente qué frecuencia soltar para que la energía nunca caiga. Transiciones quirúrgicas y curaduría de élite.',
-    coverImage: '/src/assets/Evento18.jpeg',
+    coverImage: '/media/Evento18.jpeg',
     gallery: [
-      { id: 'vs-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
-      { id: 'vs-2', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'vs-1', type: 'image', url: '/media/Evento18.jpeg' },
+      { id: 'vs-2', type: 'image', url: '/media/evento-main.jpeg' },
     ],
   },
   {
@@ -71,9 +71,9 @@ const CREW_DATA: CrewMember[] = [
     role: 'INFRAESTRUCTURA & MONTAJE',
     title: 'DESPLIEGUE LOGÍSTICO',
     description: 'Operaciones especiales para cualquier terreno. Montaje de escenarios, pantallas LED modulares y estructuras verticales. Desde el latido de un club nocturno hasta bodas exclusivas o cumbres corporativas de élite (Sancor, Bayer, Pfizer). Transformamos el espacio con precisión técnica y la mejor de nuestras sonrisas.',
-    coverImage: '/src/assets/evento-main.jpeg',
+    coverImage: '/media/evento-main.jpeg',
     gallery: [
-      { id: 'dl-1', type: 'image', url: '/src/assets/evento-main.jpeg' },
+      { id: 'dl-1', type: 'image', url: '/media/evento-main.jpeg' },
     ],
   },
   {
@@ -81,9 +81,9 @@ const CREW_DATA: CrewMember[] = [
     role: 'INNOVACIÓN & DESARROLLO',
     title: 'PROYECTO LUXSYNC [ BETA ]',
     description: 'El futuro ya está aquí, y lo estamos testeando nosotros. El primer software de iluminación contextual por IA del mercado. Capaz de generar desde texturas ambientales inmersivas y elegantes, hasta desatar la furia cinética del techno más agresivo. La fusión definitiva entre la máquina y la pista de baile.',
-    coverImage: '/src/assets/Evento18.jpeg',
+    coverImage: '/media/Evento18.jpeg',
     gallery: [
-      { id: 'ls-1', type: 'image', url: '/src/assets/Evento18.jpeg' },
+      { id: 'ls-1', type: 'image', url: '/media/Evento18.jpeg' },
     ],
   },
 ];

@@ -14,7 +14,7 @@ export default function Hero({ setActiveSection }: HeroProps) {
       <div className="z-10 flex flex-col items-center text-center">
         {/* Logo Image con efecto glow */}
         <img 
-          src="/src/assets/logo-mg.png" 
+          src="/media/logo-mg.png" 
           alt="MG Music Logo" 
           className="w-64 md:w-96 mb-6 drop-shadow-[0_0_25px_rgba(255,138,0,0.6)]"
         />
