@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+html {
+  font-size: 80%;
+}
+
 @theme {
   --color-space-black: #050508;
   --color-surface-dark: #0a0a12;
